@@ -1,24 +1,3 @@
-# tutor-selection-tool-vue
+# Tutor Selection Tool - Vue
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This is the fontend of the tutor selection tool project. And [here](https://github.com/ErjianGao/tutor-selection-tool) is the GitHub repository of the backend microservices. 
