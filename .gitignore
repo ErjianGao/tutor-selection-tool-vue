@@ -1,6 +1,9 @@
 .DS_Store
 node_modules
 /dist
+# Swagger
+Swagger UI_files
+Swagger UI.html
 
 # local env files
 .env.local
