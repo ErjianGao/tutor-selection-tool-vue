@@ -4,7 +4,7 @@
 
 <style scoped>
 .el-footer {
-  background-color: #b3c0d1;
+  background-color: #99ccff;
   color: rgb(211, 47, 47);
   text-align: center;
   line-height: 60px;

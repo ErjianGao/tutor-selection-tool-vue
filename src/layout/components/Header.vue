@@ -8,6 +8,17 @@
       :v-loading="`${this.isCollapse}`"
     ></el-button>
     <Breadcrumb :breads="breads" />
+    <el-dropdown class="dropdown-container">
+      <span class="el-dropdown-link">
+        <div class="avator-container">
+          <el-avatar shape="square" icon="el-icon-user-solid"></el-avatar>
+        </div>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>个人中心</el-dropdown-item>
+        <el-dropdown-item divided>退出登录</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </el-header>
 </template>
 
@@ -44,14 +55,22 @@ export default {
 
 <style scoped>
 .el-header {
-  background-color: #e9eff8;
+  background-color: #ccffff;
   line-height: 60px;
   display: flex;
   flex-direction: row;
-  border-bottom: 1.5px solid #dcdfe6;
+  /* border-bottom: 1.5px solid #dcdfe6; */
 }
 
 .switch-button {
   font-size: 30px;
+}
+
+.dropdown-container {
+  margin-left: auto;
+}
+
+.avator-container {
+  padding: 10px;
 }
 </style>

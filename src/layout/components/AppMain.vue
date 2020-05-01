@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 .el-main {
-  background-color: #e9eef3;
+  background-color: #ccccff91;
   color: #333;
   text-align: center;
   line-height: 160px;
