@@ -8,6 +8,7 @@ import { updateRoutes } from "@/router/index";
 Vue.use(Vuex);
 
 const myState = {
+  isCollapse: false,
   exception: null,
   message: null,
   isLogin: false
@@ -28,6 +29,9 @@ const myMutations = {
   },
   [types.RESET_MESSAGE](state) {
     state.message = null;
+  },
+  [types.SWITCH_COLLAPSE](state) {
+    state.isCollapse = !state.isCollapse;
   }
 };
 
@@ -56,6 +60,10 @@ const myActions = {
 
   async [types.RESET_MESSAGE]({ commit }, data) {
     commit(types.RESET_MESSAGE);
+  },
+
+  async [types.SWITCH_COLLAPSE]({ commit }) {
+    commit(types.SWITCH_COLLAPSE);
   }
 };
 
