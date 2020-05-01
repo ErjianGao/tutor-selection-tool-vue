@@ -4,7 +4,7 @@ import { AUTHORIZATION } from "@/util/const";
 import { ROLE } from "@/util/const";
 import { GET_EXCEPTION } from "@/store/type";
 
-axios.defaults.baseURL = "/";
+axios.defaults.baseURL = "/api/";
 
 axios.interceptors.request.use(
   req => {

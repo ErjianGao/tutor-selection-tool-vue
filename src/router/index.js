@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Layout from "@/layout/index.vue";
 
 Vue.use(VueRouter);
 
@@ -8,6 +9,12 @@ const routes = [
     path: "/login",
     component: () => import("@/views/login/index.vue")
   },
+
+  {
+    path: "/home",
+    component: Layout
+  },
+
   {
     path: "*",
     redirect: "/login"
@@ -16,20 +23,20 @@ const routes = [
 
 const adminRouter = [
   {
-    path: "/admin/",
-    component: () => import("@/views/admin/index.vue")
+    path: "/admin/"
+    // component: () => import("@/views/admin/index.vue")
   }
 ];
 const teacherRouter = [
   {
-    path: "/teacher/",
-    component: () => import("@/views/teacher/index.vue")
+    path: "/teacher/"
+    // component: () => import("@/views/teacher/index.vue")
   }
 ];
 const studentRouter = [
   {
-    path: "/student/",
-    component: () => import("@/views/student/index.vue")
+    path: "/student/"
+    // component: () => import("@/views/student/index.vue")
   }
 ];
 
@@ -42,6 +49,7 @@ export function updateRoutes() {
   switch (sessionStorage.getItem("role")) {
     case adminRole:
       router.addRoutes(adminRouter);
+      router.push("/home");
       break;
     case teacherRole:
       // 添加路由

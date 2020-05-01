@@ -4,7 +4,7 @@ module.exports = {
     // 默认端口
     port: 8081,
     proxy: {
-      "/": {
+      "/api/": {
         // 目标api地址
         target: "http://localhost:8080",
         // 将主机标头的原点改成目标URL

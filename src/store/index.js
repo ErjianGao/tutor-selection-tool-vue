@@ -18,13 +18,16 @@ const myMutations = {
     state.isLogin = data;
   },
   [types.GET_EXCEPTION](state, data) {
-    console.log("mutation");
-    console.log(data);
-
     state.exception = data;
   },
   [types.GET_MESSAGE](state, data) {
     state.message = data;
+  },
+  [types.RESET_EXCEPTION](state) {
+    state.exception = null;
+  },
+  [types.RESET_MESSAGE](state) {
+    state.message = null;
   }
 };
 
@@ -45,6 +48,14 @@ const myActions = {
       updateRoutes();
       commit(types.LOGIN, true);
     }
+  },
+
+  async [types.RESET_EXCEPTION]({ commit }, data) {
+    commit(types.RESET_EXCEPTION);
+  },
+
+  async [types.RESET_MESSAGE]({ commit }, data) {
+    commit(types.RESET_MESSAGE);
   }
 };
 
@@ -56,6 +67,6 @@ export default new Vuex.Store({
 });
 
 // 需要进行判断是否登录
-if (sessionStorage.getItem(types.AUTHORIZATION) != null) {
+if (sessionStorage.getItem(consts.AUTHORIZATION) != null) {
   myState.isLogin = true;
 }

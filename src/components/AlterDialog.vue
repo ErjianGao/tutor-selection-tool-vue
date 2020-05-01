@@ -4,16 +4,29 @@
 
 <script>
 import { mapState } from "vuex";
+import { RESET_EXCEPTION, RESET_MESSAGE } from "@/store/type.js";
 export default {
   watch: {
     exception() {
-      this.$message.error(`${this.exception}`);
+      const exception = this.exception;
+      this.$store
+        .dispatch(RESET_EXCEPTION)
+        .then(this.$message.error(`${exception}`));
+      // this.resetException();
     },
     message() {
-      this.$message({
-        message: `${this.message}`,
-        type: "success"
-      });
+      this.resetMessage();
+    }
+  },
+  methods: {
+    resetException() {},
+    resetMessage() {
+      this.$store.dispatch(RESET_MESSAGE).then(
+        this.$message({
+          message: `${this.message}`,
+          type: "success"
+        })
+      );
     }
   },
   computed: {

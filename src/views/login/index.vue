@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLogin == false" class="login-container">
+  <div class="login-container">
     <el-form
       :model="userForm"
       :rules="rules"
