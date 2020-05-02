@@ -27,7 +27,7 @@ export default {
 <style scoped>
 .el-breadcrumb {
   display: inline-block;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 50px;
   padding: 5px;
   margin-left: 20px;
@@ -40,7 +40,7 @@ export default {
 
 .el-breadcrumb >>> .el-breadcrumb__inner a,
 .el-breadcrumb >>> .el-breadcrumb__inner.is-link {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 540;
 }
 

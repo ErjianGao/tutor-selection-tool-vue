@@ -4,6 +4,22 @@
       <i :class="`${this.icon}`" />
     </button>
     <Breadcrumb :breads="breads" />
+
+    <div class="full-screen-button-container">
+      <div class="bottom">
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="全屏"
+          placement="bottom-end"
+        >
+          <button class="full-screen-button" type="button" @click="buttoncli">
+            <i class="el-icon-full-screen" />
+          </button>
+        </el-tooltip>
+      </div>
+    </div>
+
     <el-dropdown class="dropdown-container">
       <span class="el-dropdown-link">
         <div class="avator-container">
@@ -22,9 +38,11 @@
 </template>
 
 <script>
+import screenfull from "screenfull";
 import { SWITCH_COLLAPSE } from "@/store/type.js";
 import { mapState } from "vuex";
 import Breadcrumb from "./Breadcrumb";
+
 export default {
   name: "Header",
   props: ["breads"],
@@ -32,7 +50,8 @@ export default {
     Breadcrumb
   },
   data: () => ({
-    icon: "el-icon-s-fold"
+    icon: "el-icon-s-fold",
+    isFullscreen: false
   }),
   methods: {
     switchCollapse() {
@@ -43,6 +62,24 @@ export default {
           this.icon = "el-icon-s-fold";
         }
       });
+    },
+    buttoncli() {
+      if (!screenfull.enabled) {
+        // 如果不允许进入全屏，发出不允许提示
+        this.$message({
+          message: "不支持全屏",
+          type: "warning"
+        });
+        return false;
+      }
+      screenfull.toggle();
+      this.isFullscreen = !this.isFullscreen;
+      if (this.isFullscreen == true) {
+        this.$message({
+          message: "全屏啦",
+          type: "success"
+        });
+      }
     }
   },
 
@@ -67,8 +104,19 @@ export default {
   color: rgb(123, 48, 221);
 }
 
-.dropdown-container {
+.full-screen-button-container {
   margin-left: auto;
+}
+
+.full-screen-button {
+  font-size: 30px;
+  padding: 10px;
+  background: transparent;
+}
+
+.dropdown-container:hover {
+  /* margin-left: auto; */
+  cursor: pointer;
 }
 
 .avator-container {
@@ -77,5 +125,33 @@ export default {
 
 .el-avatar--square {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.164) !important;
+}
+
+.top {
+  text-align: center;
+}
+
+.left {
+  float: left;
+  width: 60px;
+}
+
+.right {
+  float: right;
+  width: 60px;
+}
+
+.bottom {
+  clear: both;
+  text-align: center;
+}
+
+.item {
+  margin: 4px;
+}
+
+.left .el-tooltip__popper,
+.right .el-tooltip__popper {
+  padding: 8px 10px;
 }
 </style>
