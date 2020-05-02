@@ -25,7 +25,7 @@
         <div class="avator-container">
           <el-avatar
             shape="square"
-            src="https://lh3.googleusercontent.com/proxy/KwQih1SQWBdtlqM6QSdAzcjW6heSV-eUSWrysLuSxRzCHUyn2EF-ETj7LlvIHYxSPYg2yWyYAtyTbdl42VT32KtJ"
+            :src="require('@/assets/img/defaut_avatar.gif')"
           ></el-avatar>
         </div>
       </span>
