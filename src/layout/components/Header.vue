@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <el-dropdown class="dropdown-container">
+    <el-dropdown class="dropdown-container avator">
       <span class="el-dropdown-link">
         <div class="avator-container">
           <el-avatar
@@ -114,11 +114,12 @@ export default {
   background: transparent;
 }
 
-.dropdown-container:hover {
+.dropdown-container:hover .el-avatar--square {
   /* margin-left: auto; */
   cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.164) !important;
+  transform: scale(1.2);
 }
-
 .avator-container {
   padding: 10px;
 }
