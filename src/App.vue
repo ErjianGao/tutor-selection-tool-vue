@@ -46,4 +46,9 @@ button {
 button:hover {
   cursor: pointer;
 }
+
+a {
+  color: #7b30dd;
+  text-decoration: none;
+}
 </style>
