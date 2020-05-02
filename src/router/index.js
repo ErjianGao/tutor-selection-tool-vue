@@ -19,11 +19,6 @@ const routes = [
         component: () => import("@/views/index/index.vue")
       }
     ]
-  },
-
-  {
-    path: "*",
-    redirect: "/login"
   }
 ];
 

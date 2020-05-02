@@ -12,12 +12,23 @@
           <span>项目信息</span>
         </div>
         <p>
-          制作者：高尔健
+          制作者：高尔健小朋友
           <br />
-          <a href="">后端微服务仓库链接</a>
+          <a
+            href="https://github.com/ErjianGao/tutor-selection-tool"
+            target="blank"
+          >
+            后端微服务仓库链接
+          </a>
           <br />
-          <a href="">前端Vue仓库链接</a>
+          <a
+            href="https://github.com/ErjianGao/tutor-selection-tool-vue"
+            target="blank"
+          >
+            前端Vue仓库链接
+          </a>
           <br />
+          <a href="http://erjiangao.com/" target="blank">个人主页</a>
         </p>
       </el-card>
     </el-col>
