@@ -5,9 +5,9 @@
     @open="handleOpen"
     @close="handleClose"
     :collapse="isCollapse"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#66b1ff"
+    background-color="#ffffff"
+    text-color="#000000"
+    active-text-color="#9393fc"
     @select="handleMenuSelect"
   >
     <el-menu-item index="首页">
@@ -25,8 +25,12 @@
         <span slot="title">学生列表</span>
       </template>
 
-      <el-menu-item index="所有学生">所有学生</el-menu-item>
-      <el-menu-item index="已选学生">已选学生</el-menu-item>
+      <el-menu-item class="submenu-item" index="所有学生">
+        所有学生
+      </el-menu-item>
+      <el-menu-item class="submenu-item" index="已选学生">
+        已选学生
+      </el-menu-item>
     </el-submenu>
 
     <el-menu-item index="教师列表">
@@ -62,8 +66,35 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
+i {
+  font-size: 1.5rm !important;
+}
+
 .el-menu-vertical:not(.el-menu--collapse) {
-  width: 250px;
+  width: 230px;
+}
+
+.el-menu-item:hover {
+  background: #ccccff75 !important;
+}
+
+.el-submenu,
+.el-menu-item {
+  text-align: left;
+  font-size: 17px !important;
+}
+
+.el-submenu__title:hover {
+  background: #ccccff75 !important;
+}
+
+.el-submenu__title {
+  font-size: 17px !important;
+}
+
+.submenu-item {
+  padding-left: 50px !important;
+  min-width: 0 !important;
 }
 </style>

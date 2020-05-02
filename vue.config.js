@@ -2,6 +2,7 @@ module.exports = {
   // 开发环境配置
   devServer: {
     // 默认端口
+    host: "0.0.0.0",
     port: 8081,
     proxy: {
       "/api/": {

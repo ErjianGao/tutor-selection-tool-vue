@@ -1,12 +1,15 @@
 <template>
   <div class="app-wrapper">
-    <el-container class="app-container" direction="horizontal">
-      <Sidebar @switch="getPath" />
-      <el-container direction="vertical">
-        <Header :breads="breads" />
-        <AppMain />
-        <Footer />
+    <el-container class="app-container" direction="vertical">
+      <el-container direction="horizontal">
+        <Sidebar @switch="getPath" />
+        <el-container direction="vertical">
+          <Header :breads="breads" />
+          <AppMain />
+        </el-container>
       </el-container>
+
+      <Footer />
     </el-container>
   </div>
 </template>

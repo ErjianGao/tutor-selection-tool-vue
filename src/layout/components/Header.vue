@@ -1,17 +1,16 @@
 <template>
   <el-header height="60px">
-    <el-button
-      class="switch-button"
-      type="text"
-      :icon="`${this.icon}`"
-      @click="switchCollapse"
-      :v-loading="`${this.isCollapse}`"
-    ></el-button>
+    <button class="switch-button" @click="switchCollapse">
+      <i :class="`${this.icon}`" />
+    </button>
     <Breadcrumb :breads="breads" />
     <el-dropdown class="dropdown-container">
       <span class="el-dropdown-link">
         <div class="avator-container">
-          <el-avatar shape="square" icon="el-icon-user-solid"></el-avatar>
+          <el-avatar
+            shape="square"
+            src="https://lh3.googleusercontent.com/proxy/KwQih1SQWBdtlqM6QSdAzcjW6heSV-eUSWrysLuSxRzCHUyn2EF-ETj7LlvIHYxSPYg2yWyYAtyTbdl42VT32KtJ"
+          ></el-avatar>
         </div>
       </span>
       <el-dropdown-menu slot="dropdown">
@@ -55,7 +54,7 @@ export default {
 
 <style scoped>
 .el-header {
-  background-color: #ccffff;
+  background-color: #ccccff9d;
   line-height: 60px;
   display: flex;
   flex-direction: row;
@@ -64,6 +63,8 @@ export default {
 
 .switch-button {
   font-size: 30px;
+  background: transparent;
+  color: rgb(123, 48, 221);
 }
 
 .dropdown-container {
@@ -72,5 +73,9 @@ export default {
 
 .avator-container {
   padding: 10px;
+}
+
+.el-avatar--square {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.164) !important;
 }
 </style>

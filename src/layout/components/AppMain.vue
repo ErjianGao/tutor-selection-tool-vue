@@ -1,6 +1,5 @@
 <template>
   <el-main>
-    Main
     <router-view />
   </el-main>
 </template>
@@ -13,7 +12,7 @@ export default {
 
 <style scoped>
 .el-main {
-  background-color: #ccccff91;
+  background-color: #ccccff54;
   color: #333;
   text-align: center;
   line-height: 160px;

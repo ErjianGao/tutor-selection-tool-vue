@@ -32,4 +32,20 @@ export default {
   padding: 5px;
   margin-left: 20px;
 }
+
+.el-breadcrumb-item {
+  border: 1px solid #dcdfe6;
+  border-radius: 10px;
+}
+
+.el-breadcrumb >>> .el-breadcrumb__inner a,
+.el-breadcrumb >>> .el-breadcrumb__inner.is-link {
+  font-size: 20px;
+  font-weight: 540;
+}
+
+.el-breadcrumb >>> .el-breadcrumb__inner a:hover,
+.el-breadcrumb >>> .el-breadcrumb__inner.is-link:hover {
+  color: rgb(123, 48, 221);
+}
 </style>
