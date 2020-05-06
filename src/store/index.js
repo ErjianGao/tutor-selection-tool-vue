@@ -9,6 +9,8 @@ Vue.use(Vuex);
 
 const myState = {
   isCollapse: false,
+  user: {},
+  role: null,
   exception: null,
   message: null,
   isLogin: false
@@ -17,6 +19,12 @@ const myState = {
 const myMutations = {
   [types.LOGIN](state, data) {
     state.isLogin = data;
+  },
+  [types.UPDATE_ROLE](state, data) {
+    state.role = data;
+  },
+  [types.UPDATE_USER](state, data) {
+    state.user = data;
   },
   [types.GET_EXCEPTION](state, data) {
     state.exception = data;
@@ -64,6 +72,12 @@ const myActions = {
 
   async [types.SWITCH_COLLAPSE]({ commit }) {
     commit(types.SWITCH_COLLAPSE);
+  },
+
+  async [types.GET_USER]({ commit }) {
+    let resp = await axios.get("profile");
+    console.log(resp.data.user);
+    commit(types.UPDATE_USER, resp.data.user);
   }
 };
 

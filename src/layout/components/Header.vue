@@ -126,6 +126,7 @@ export default {
 
 .el-avatar--square {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.164) !important;
+  transition-duration: 200ms;
 }
 
 .top {

@@ -1,6 +1,8 @@
 import Vue from "vue";
+import store from "@/store/index";
 import VueRouter from "vue-router";
 import Layout from "@/layout/index.vue";
+import * as types from "@/store/type";
 
 Vue.use(VueRouter);
 
@@ -17,6 +19,17 @@ const routes = [
       {
         path: "",
         component: () => import("@/views/index/index.vue")
+      }
+    ]
+  },
+
+  {
+    path: "/settings",
+    component: Layout,
+    children: [
+      {
+        path: "",
+        component: () => import("@/views/settings/index.vue")
       }
     ]
   }
@@ -49,14 +62,17 @@ const studentRole = "fRDM4ozFX@w4QvOGbPAQq$I6x4MlVYCu";
 export function updateRoutes() {
   switch (sessionStorage.getItem("role")) {
     case adminRole:
+      store.commit(types.UPDATE_ROLE, "admin");
       router.addRoutes(adminRouter);
       router.push("/home");
       break;
     case teacherRole:
+      store.commit(types.UPDATE_ROLE, "teacher");
       // 添加路由
       router.addRoutes(teacherRouter);
       break;
     case studentRole:
+      store.commit(types.UPDATE_ROLE, "student");
       router.addRoutes(studentRouter);
       break;
   }

@@ -1,13 +1,13 @@
 <template>
   <el-row :gutter="36">
     <el-col :span="16">
-      <el-card class="box-card" shadow="hover">
+      <el-card class="box-card" shadow="always">
         <el-image :src="require('@/assets/img/system-logo.png')"></el-image>
-        <h1 class="title">欢迎使用毕业设计导师选择系统!</h1>
+        <h1 class="title">欢迎使用毕业设计师生互选系统!</h1>
       </el-card>
     </el-col>
     <el-col :span="6">
-      <el-card shadow="hover">
+      <el-card shadow="always">
         <div slot="header" class="clearfix">
           <span>项目信息</span>
         </div>

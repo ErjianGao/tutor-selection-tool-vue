@@ -67,10 +67,6 @@ export default {
 </script>
 
 <style scope>
-i {
-  font-size: 1.5rm !important;
-}
-
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 230px;
 }
