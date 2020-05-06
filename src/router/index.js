@@ -2,7 +2,7 @@ import Vue from "vue";
 import store from "@/store/index";
 import VueRouter from "vue-router";
 import Layout from "@/layout/index.vue";
-import * as types from "@/store/type";
+import * as types from "@/store/types";
 
 Vue.use(VueRouter);
 

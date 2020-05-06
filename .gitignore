@@ -15,6 +15,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
+tutor-selection-tool-vue.iml
 .idea
 .vscode
 *.suo

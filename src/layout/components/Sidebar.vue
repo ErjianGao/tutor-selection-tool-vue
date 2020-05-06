@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    default-active="1"
+    :default-active="$route.path"
     class="el-menu-vertical"
     @open="handleOpen"
     @close="handleClose"

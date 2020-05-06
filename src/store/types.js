@@ -6,4 +6,9 @@ export const RESET_MESSAGE = "resetMessage";
 export const SWITCH_COLLAPSE = "switchCollapse";
 export const UPDATE_USER = "updateUser";
 export const GET_USER = "getUser";
-export const UPDATE_ROLE = "update_ROLE";
+export const UPDATE_ROLE = "updateRole";
+
+// namespace
+export const USER_NAMESPACE = "userModule";
+export const TEACHER_NAMESPACE = "teacherModule";
+export const ADMIN_NAMESPACE = "adminModule";

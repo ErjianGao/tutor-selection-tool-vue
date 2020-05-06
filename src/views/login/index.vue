@@ -1,39 +1,45 @@
 <template>
-  <div class="login-container">
-    <el-form
-      :model="userForm"
-      :rules="rules"
-      ref="userForm"
-      label-width="60px"
-      class="demo-ruleForm"
-    >
-      <h3 class="login-title">SYSTEM LOGIN</h3>
-      <el-form-item label="账号" prop="identityNo">
-        <el-input
-          v-model="userForm.identityNo"
-          placeholder="请输入账号"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input
-          type="password"
-          v-model="userForm.password"
-          placeholder="请输入密码"
-        ></el-input>
-      </el-form-item>
-      <el-form-item class="login-button">
-        <el-button type="primary" @click="submitForm('userForm')">
-          登录
-        </el-button>
-        <el-button @click="resetForm('userForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+  <el-container>
+    <div class="login-container">
+      <el-form
+        :model="userForm"
+        :rules="rules"
+        ref="userForm"
+        label-width="60px"
+        class="demo-ruleForm"
+      >
+        <h3 class="login-title">SYSTEM LOGIN</h3>
+        <el-form-item label="账号" prop="identityNo">
+          <el-input
+            v-model="userForm.identityNo"
+            placeholder="请输入账号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            type="password"
+            v-model="userForm.password"
+            placeholder="请输入密码"
+          ></el-input>
+        </el-form-item>
+        <el-form-item class="login-button">
+          <el-button type="primary" @click="submitForm('userForm')">
+            登录
+          </el-button>
+          <el-button @click="resetForm('userForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-container>
 </template>
 
 <script>
-import { LOGIN } from "@/store/type.js";
+// import { createNamespacedHelpers } from "vuex";
+import { LOGIN } from "@/store/types.js";
 import { mapState } from "vuex";
+import { USER_NAMESPACE } from "@/store/types";
+// const { mapState } = createNamespacedHelpers("userModule");
+
 export default {
   data: () => ({
     userForm: {
@@ -51,10 +57,20 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch(LOGIN, {
-            identityNo: this.userForm.identityNo,
-            password: this.userForm.password
-          });
+          let resp = this.$store
+            .dispatch(USER_NAMESPACE + "/" + LOGIN, {
+              identityNo: this.userForm.identityNo,
+              password: this.userForm.password
+            })
+            .then(resp => {
+              this.$message({
+                message: "登录成功",
+                type: "success"
+              });
+            })
+            .catch(error => {
+              this.$message.error("用户名密码错误哦");
+            });
         } else {
           this.$message.error("用户名或密码不能为空哦");
           console.log("error submit!");
@@ -67,7 +83,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["isLogin"])
+    ...mapState("userModule", ["isLogin"])
   }
 };
 </script>

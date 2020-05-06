@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "@/store/index";
 import { AUTHORIZATION } from "@/util/const";
 import { ROLE } from "@/util/const";
-import { GET_EXCEPTION } from "@/store/type";
+import { GET_EXCEPTION } from "@/store/types";
 
 axios.defaults.baseURL = "/api/";
 
@@ -31,14 +31,15 @@ axios.interceptors.response.use(
   },
   // 全局异常处理
   error => {
-    console.log("响应异常");
-    console.log(error);
+    console.log("响应异常信息：" + error);
 
     // 获取错误信息
     let resp = error.response;
     console.log(resp);
+    console.log(resp.data.message);
 
-    store.commit(GET_EXCEPTION, resp.data.message);
+    // store.commit(GET_EXCEPTION, resp.data.message);
+    return Promise.reject(error);
   }
 );
 

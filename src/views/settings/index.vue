@@ -8,23 +8,26 @@
           </div>
           <div class="profile-content">
             <div class="avatar">
-              <i v-if="role == 'admin'" class="iconfont icon-guanliyuan"></i>
-              <i v-else-if="role == 'teacher'" class="iconfont icon-laoshi"></i>
+              <i v-if="role === 'admin'" class="iconfont icon-guanliyuan"></i>
               <i
-                v-else-if="role == 'student'"
+                v-else-if="role === 'teacher'"
+                class="iconfont icon-laoshi"
+              ></i>
+              <i
+                v-else-if="role === 'student'"
                 class="iconfont icon-xuesheng"
               ></i>
             </div>
             <p class="name">{{ user.name }}</p>
 
             <p class="identityNo">{{ user.identityNo }}</p>
-            <div v-if="role == 'student'">
+            <div v-if="role === 'student'">
               <div v-if="user.direction != null">
                 <i class="iconfont icon-iconfonticon-dianyu"></i>
               </div>
             </div>
-            <div v-else-if="role == 'teacher'"></div>
-            <div v-else-if="role == 'admin'"></div>
+            <div v-else-if="role === 'teacher'"></div>
+            <div v-else-if="role === 'admin'"></div>
           </div>
         </el-card>
       </el-col>
@@ -42,7 +45,7 @@
 <script>
 import NavMenu from "./components/NavMenu";
 import { mapState } from "vuex";
-import { GET_USER } from "@/store/type.js";
+import { GET_USER } from "@/store/types.js";
 export default {
   created() {
     this.$store.dispatch(GET_USER);
@@ -84,7 +87,7 @@ i {
 .name {
   margin: 10px;
   font-size: 1.5em;
-  font-weight: 550;
+  font-weight: 600;
 }
 
 .identityNo {

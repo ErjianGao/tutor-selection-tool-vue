@@ -4,7 +4,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { RESET_EXCEPTION, RESET_MESSAGE } from "@/store/type.js";
+import { RESET_EXCEPTION, RESET_MESSAGE } from "@/store/types.js";
 export default {
   watch: {
     exception() {

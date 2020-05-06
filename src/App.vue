@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <alertdialog></alertdialog>
+    <!-- <alertdialog></alertdialog> -->
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   name: "app",
   components: {
-    alertdialog: () => import("@/components/AlterDialog.vue")
+    // alertdialog: () => import("@/components/AlterDialog.vue")
   }
 };
 </script>

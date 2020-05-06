@@ -39,7 +39,7 @@
 
 <script>
 import screenfull from "screenfull";
-import { SWITCH_COLLAPSE } from "@/store/type.js";
+import { SWITCH_COLLAPSE } from "@/store/types.js";
 import { mapState } from "vuex";
 import Breadcrumb from "./Breadcrumb";
 
