@@ -9,6 +9,10 @@ export const constantRouterMap = [
   {
     path: "/login",
     component: () => import("@/views/login/index.vue")
+  },
+
+  {
+    path: "/logout"
   }
 ];
 

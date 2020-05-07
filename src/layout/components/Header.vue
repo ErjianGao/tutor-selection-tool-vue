@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <el-dropdown class="dropdown-container avator">
+    <el-dropdown trigger="click" class="dropdown-container avator">
       <span class="el-dropdown-link">
         <div class="avator-container">
           <el-avatar
@@ -30,8 +30,12 @@
         </div>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>个人中心</el-dropdown-item>
-        <el-dropdown-item divided>退出登录</el-dropdown-item>
+        <el-dropdown-item>
+          <router-link to="/settings">个人中心</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item @click.native="logout" divided>
+          退出登录
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-header>
@@ -42,7 +46,7 @@ import screenfull from "screenfull";
 import { SWITCH_COLLAPSE } from "@/store/types.js";
 import { mapState } from "vuex";
 import Breadcrumb from "./Breadcrumb";
-import { APP_NAMESPACE } from "@/store/types";
+import { APP_NAMESPACE, LOGOUT, USER_NAMESPACE } from "@/store/types";
 
 export default {
   name: "Header",
@@ -81,6 +85,13 @@ export default {
           type: "success"
         });
       }
+    },
+
+    async logout() {
+      console.log("logout");
+      this.$message.success("已退出登录");
+      await this.$store.dispatch(USER_NAMESPACE + "/" + LOGOUT);
+      await this.$router.push("/logout");
     }
   },
 

@@ -83,12 +83,12 @@ export default {
   font-size: 17px !important;
 }
 
-.el-submenu__title:hover {
-  background: #ccccff75 !important;
+>>> .el-submenu__title {
+  font-size: 17px !important;
 }
 
-.el-submenu__title {
-  font-size: 17px !important;
+>>> .el-submenu__title:hover {
+  background: #ccccff75 !important;
 }
 
 .submenu-item {
