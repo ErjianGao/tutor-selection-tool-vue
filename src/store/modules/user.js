@@ -1,14 +1,31 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import store from "@/store/index";
 import * as types from "@/store/types";
-import * as consts from "@/util/const";
+import * as consts from "@/util/consts";
 import axios from "@/util/axios";
-import { updateRoutes } from "@/router/index";
+import { STUDENT_ROLE } from "@/util/consts";
+import { TEACHER_ROLE } from "@/util/consts";
+import { ADMIN_ROLE } from "@/util/consts";
+import { ROLE } from "@/util/consts";
 
 Vue.use(Vuex);
 
+function decodeRole(roleKey) {
+  switch (roleKey) {
+    case STUDENT_ROLE:
+      return "student";
+    case TEACHER_ROLE:
+      return "teacher";
+    case ADMIN_ROLE:
+      return "admin";
+  }
+}
+
 const myState = {
-  user: null,
+  // user
+  name: null,
+  identityNo: null,
   role: null,
   isLogin: false
 };
@@ -20,8 +37,11 @@ const myMutations = {
   [types.UPDATE_ROLE](state, data) {
     state.role = data;
   },
-  [types.UPDATE_USER](state, data) {
-    state.user = data;
+  [types.UPDATE_NAME](state, data) {
+    state.name = data;
+  },
+  [types.UPDATE_IDENTITY_NO](state, data) {
+    state.identityNo = data;
   }
 };
 
@@ -32,35 +52,32 @@ const myActions = {
 
     // 登录成功则resp不为null
     if (resp != null) {
-      commit(types.GET_MESSAGE, "登录成功");
       // 身份信息存入session storage
       sessionStorage.setItem(
         consts.AUTHORIZATION,
         resp.headers[consts.AUTHORIZATION]
       );
-      sessionStorage.setItem(consts.ROLE, resp.data.role);
-      // 更新路由
-      updateRoutes();
+      let role = resp.data.role;
+      console.log("login role: ", role);
+      sessionStorage.setItem(ROLE, role);
       commit(types.LOGIN, true);
     }
   },
 
-  async [types.RESET_EXCEPTION]({ commit }, data) {
-    commit(types.RESET_EXCEPTION);
-  },
-
-  async [types.RESET_MESSAGE]({ commit }, data) {
-    commit(types.RESET_MESSAGE);
-  },
-
-  async [types.SWITCH_COLLAPSE]({ commit }) {
-    commit(types.SWITCH_COLLAPSE);
-  },
-
   async [types.GET_USER]({ commit }) {
     let resp = await axios.get("profile");
-    console.log(resp.data.user);
-    commit(types.UPDATE_USER, resp.data.user);
+    console.log("user: ", resp.data.user);
+
+    commit(types.UPDATE_NAME, resp.data.user.name);
+    commit(types.UPDATE_IDENTITY_NO, resp.data.user.identityNo);
+    commit(types.UPDATE_ROLE, decodeRole(sessionStorage.getItem(ROLE)));
+  },
+
+  async [types.LOGOUT]({ commit }) {
+    commit(types.UPDATE_NAME, null);
+    commit(types.UPDATE_IDENTITY_NO, null);
+    commit(types.UPDATE_ROLE, null);
+    commit(types.LOGIN, false);
   }
 };
 
@@ -70,8 +87,3 @@ export const userModule = {
   mutations: myMutations,
   actions: myActions
 };
-
-// 需要进行判断是否登录
-if (sessionStorage.getItem(consts.AUTHORIZATION) != null) {
-  myState.isLogin = true;
-}

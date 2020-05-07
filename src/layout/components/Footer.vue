@@ -7,8 +7,10 @@
     </div>
 
     <span>
-      <b>Location.href:</b>
-      {{ url }}
+      <b>Domain Name:</b>
+      {{ domainName }}
+      <b>Router Path:</b>
+      {{ routerPath }}
     </span>
 
     <div class="time">{{ date }}</div>
@@ -30,18 +32,17 @@
   </el-footer>
 </template>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 export default {
   data: () => ({
-    date: new Date()
+    date: new Date().toString().substr(0, 24)
   }),
   methods: {
     reload() {
       window.location.reload();
     }
   },
-  mounted: function() {
+  created: function() {
     var _this = this; //声明一个变量指向Vue实例this，保证作用域一致
     this.timer = setInterval(function() {
       //设置定时器，每秒执行一次function函数，
@@ -55,10 +56,11 @@ export default {
     }
   },
   computed: {
-    url() {
-      console.log(window.location.href);
-
-      return window.location.href;
+    routerPath() {
+      return this.$route.path;
+    },
+    domainName() {
+      return window.location.host;
     }
   }
 };

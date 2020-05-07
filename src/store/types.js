@@ -1,14 +1,17 @@
-export const LOGIN = "login";
-export const GET_EXCEPTION = "getException";
-export const RESET_EXCEPTION = "resetException";
-export const GET_MESSAGE = "getMessage";
-export const RESET_MESSAGE = "resetMessage";
+// app
 export const SWITCH_COLLAPSE = "switchCollapse";
-export const UPDATE_USER = "updateUser";
-export const GET_USER = "getUser";
+
+// user
+export const LOGIN = "login";
+export const LOGOUT = "logout";
+export const UPDATE_NAME = "updateName";
 export const UPDATE_ROLE = "updateRole";
+export const UPDATE_IDENTITY_NO = "updateIdentityNo";
+export const GET_USER = "getUser";
+export const UPDATE_ROUTES = "updateRoutes";
+export const GENERATE_ROUTES = "generateRoutes";
 
 // namespace
 export const USER_NAMESPACE = "userModule";
-export const TEACHER_NAMESPACE = "teacherModule";
-export const ADMIN_NAMESPACE = "adminModule";
+export const APP_NAMESPACE = "appModule";
+export const PERMISSION_NAMESPACE = "permissionModule";

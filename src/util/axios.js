@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "@/store/index";
-import { AUTHORIZATION } from "@/util/const";
-import { ROLE } from "@/util/const";
+import { AUTHORIZATION } from "@/util/consts";
+import { ROLE } from "@/util/consts";
 import { GET_EXCEPTION } from "@/store/types";
 
 axios.defaults.baseURL = "/api/";

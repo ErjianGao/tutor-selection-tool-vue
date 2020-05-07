@@ -1,17 +1,22 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import { adminModule } from "@/store/modules/admin";
-// import { appModule } from "@/store/modules/app";
-// import { teacherModule } from "@/store/modules/teacher";
+import getters from "@/store/getters";
+
+import { appModule } from "@/store/modules/app";
 import { userModule } from "@/store/modules/user";
+import { permissionModule } from "@/store/modules/permission";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  modules: {
-    // adminModule: adminModule,
-    // appModule: appModule,
-    // teacherModule: teacherModule,
-    userModule: userModule
-  }
+const modules = {
+  appModule: appModule,
+  userModule: userModule,
+  permissionModule: permissionModule
+};
+
+const store = new Vuex.Store({
+  modules,
+  getters
 });
+
+export default store;

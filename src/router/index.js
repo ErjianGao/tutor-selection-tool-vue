@@ -1,86 +1,69 @@
 import Vue from "vue";
-import store from "@/store/index";
-import VueRouter from "vue-router";
+import Router from "vue-router";
 import Layout from "@/layout/index.vue";
-import * as types from "@/store/types";
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
-const routes = [
+// 路由表，不需要权限
+export const constantRouterMap = [
   {
     path: "/login",
     component: () => import("@/views/login/index.vue")
-  },
+  }
+];
 
+// //实例化vue的时候只挂载constantRouter
+// export default new Router({
+//   routes: constantRouterMap
+// });
+
+//异步挂载的路由
+//动态需要根据权限加载的路由表
+export const asyncRouterMap = [
   {
-    path: "/home",
+    path: "/",
     component: Layout,
+    meta: { roles: ["teacher", "student", "admin"] },
     children: [
       {
-        path: "",
-        component: () => import("@/views/index/index.vue")
-      }
-    ]
-  },
+        path: "home",
+        meta: { roles: ["teacher", "student", "admin"] },
+        component: () => import("@/views/home/index.vue")
+      },
 
-  {
-    path: "/settings",
-    component: Layout,
-    children: [
       {
-        path: "",
+        path: "settings",
+        meta: { roles: ["teacher", "student", "admin"] },
+        component: () => import("@/views/settings/index.vue")
+      },
+
+      {
+        path: "teachers",
+        meta: { roles: ["admin"] },
         component: () => import("@/views/settings/index.vue")
       }
     ]
+  },
+
+  {
+    path: "*",
+    redirect: "/404"
   }
 ];
 
-const adminRouter = [
-  {
-    path: "/admin/"
-    // component: () => import("@/views/admin/index.vue")
-  }
-];
-const teacherRouter = [
-  {
-    path: "/teacher/"
-    // component: () => import("@/views/teacher/index.vue")
-  }
-];
-const studentRouter = [
-  {
-    path: "/student/"
-    // component: () => import("@/views/student/index.vue")
-  }
-];
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRouterMap
+  });
 
-const adminRole = "E#*st#7sjAiUH4XXok8#EoA*9L$LrhxO";
-const teacherRole = "Ol#gusunkVLGxAJXrIuWkQ3Pj04K!02d";
-const studentRole = "fRDM4ozFX@w4QvOGbPAQq$I6x4MlVYCu";
+const router = createRouter();
 
-// 暴露该方法，登录后，有vuex调用，通知更新路由信息
-export function updateRoutes() {
-  switch (sessionStorage.getItem("role")) {
-    case adminRole:
-      store.commit(types.UPDATE_ROLE, "admin");
-      router.addRoutes(adminRouter);
-      router.push("/home");
-      break;
-    case teacherRole:
-      store.commit(types.UPDATE_ROLE, "teacher");
-      // 添加路由
-      router.addRoutes(teacherRouter);
-      break;
-    case studentRole:
-      store.commit(types.UPDATE_ROLE, "student");
-      router.addRoutes(studentRouter);
-      break;
-  }
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher; // reset router
 }
 
-const router = new VueRouter({
-  routes
-});
-
 export default router;
-updateRoutes();

@@ -13,7 +13,7 @@
           content="全屏"
           placement="bottom-end"
         >
-          <button class="full-screen-button" type="button" @click="buttoncli">
+          <button class="full-screen-button" type="button" @click="buttonCli">
             <i class="el-icon-full-screen" />
           </button>
         </el-tooltip>
@@ -42,6 +42,7 @@ import screenfull from "screenfull";
 import { SWITCH_COLLAPSE } from "@/store/types.js";
 import { mapState } from "vuex";
 import Breadcrumb from "./Breadcrumb";
+import { APP_NAMESPACE } from "@/store/types";
 
 export default {
   name: "Header",
@@ -55,15 +56,15 @@ export default {
   }),
   methods: {
     switchCollapse() {
-      this.$store.dispatch(SWITCH_COLLAPSE).then(() => {
-        if (this.isCollapse == true) {
+      this.$store.dispatch(APP_NAMESPACE + "/" + SWITCH_COLLAPSE).then(() => {
+        if (this.isCollapse === true) {
           this.icon = "el-icon-s-unfold";
         } else {
           this.icon = "el-icon-s-fold";
         }
       });
     },
-    buttoncli() {
+    buttonCli() {
       if (!screenfull.enabled) {
         // 如果不允许进入全屏，发出不允许提示
         this.$message({
@@ -74,7 +75,7 @@ export default {
       }
       screenfull.toggle();
       this.isFullscreen = !this.isFullscreen;
-      if (this.isFullscreen == true) {
+      if (this.isFullscreen === true) {
         this.$message({
           message: "全屏啦",
           type: "success"

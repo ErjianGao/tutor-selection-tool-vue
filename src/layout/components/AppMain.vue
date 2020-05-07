@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <router-view />
+    <router-view :key="$route.path" />
   </el-main>
 </template>
 

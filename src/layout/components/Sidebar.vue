@@ -41,7 +41,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+import { APP_NAMESPACE } from "@/store/types";
+const { mapState } = createNamespacedHelpers(APP_NAMESPACE);
 export default {
   name: "Sidebar",
 
@@ -66,7 +68,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 230px;
 }

@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-card>
+        <el-card v-loading="loading">
           <div slot="header" class="profile-header">
             <span>About me</span>
           </div>
@@ -18,9 +18,9 @@
                 class="iconfont icon-xuesheng"
               ></i>
             </div>
-            <p class="name">{{ user.name }}</p>
+            <p class="name" v-if="user">{{ user.name }}</p>
 
-            <p class="identityNo">{{ user.identityNo }}</p>
+            <p class="identityNo" v-if="user">{{ user.identityNo }}</p>
             <div v-if="role === 'student'">
               <div v-if="user.direction != null">
                 <i class="iconfont icon-iconfonticon-dianyu"></i>
@@ -44,17 +44,25 @@
 
 <script>
 import NavMenu from "./components/NavMenu";
-import { mapState } from "vuex";
+import { USER_NAMESPACE } from "@/store/types";
 import { GET_USER } from "@/store/types.js";
+import { mapState } from "vuex";
+
 export default {
   created() {
-    this.$store.dispatch(GET_USER);
+    this.$store
+      .dispatch(USER_NAMESPACE + "/" + GET_USER)
+      .then((this.loading = false));
   },
+  data: () => ({
+    role: "admin",
+    loading: true
+  }),
   components: {
     NavMenu
   },
   computed: {
-    ...mapState(["user", "role"])
+    ...mapState(USER_NAMESPACE, ["user"])
   }
 };
 </script>

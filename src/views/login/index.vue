@@ -34,11 +34,9 @@
 </template>
 
 <script>
-// import { createNamespacedHelpers } from "vuex";
-import { LOGIN } from "@/store/types.js";
 import { mapState } from "vuex";
+import { LOGIN } from "@/store/types.js";
 import { USER_NAMESPACE } from "@/store/types";
-// const { mapState } = createNamespacedHelpers("userModule");
 
 export default {
   data: () => ({
@@ -63,6 +61,7 @@ export default {
               password: this.userForm.password
             })
             .then(resp => {
+              this.$router.push("/home");
               this.$message({
                 message: "登录成功",
                 type: "success"
@@ -83,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("userModule", ["isLogin"])
+    ...mapState(USER_NAMESPACE, ["isLogin"])
   }
 };
 </script>

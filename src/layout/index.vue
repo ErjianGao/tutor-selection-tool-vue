@@ -8,7 +8,6 @@
           <AppMain />
         </el-container>
       </el-container>
-
       <Footer />
     </el-container>
   </div>
