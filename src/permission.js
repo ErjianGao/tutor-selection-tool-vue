@@ -3,7 +3,7 @@ import store from "./store";
 
 import {
   GENERATE_ROUTES,
-  GET_USER,
+  UPDATE_USER,
   PERMISSION_NAMESPACE,
   USER_NAMESPACE
 } from "@/store/types";
@@ -33,24 +33,30 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // 判断当前用户是否已拉取完user_info信息
       if (store.getters.role === null || store.getters.name === null) {
-        // 拉取user_info
-        await store.dispatch(USER_NAMESPACE + "/" + GET_USER);
-        let role = store.getters.role;
-        console.log("permission: ", role);
-        // 动态生成路由
-        let accessedRoutes = await store.dispatch(
-          PERMISSION_NAMESPACE + "/" + GENERATE_ROUTES,
-          {
-            role
-          }
-        );
-        // 添加路由信息
-        router.addRoutes(accessedRoutes);
-        console.log("permission routes: ", store.getters.permission_routes);
+        try {
+          // 拉取user_info
+          await store.dispatch(USER_NAMESPACE + "/" + UPDATE_USER);
+          let role = store.getters.role;
+          console.log("permission: ", role);
+          // 动态生成路由，异步请求
+          let accessedRoutes = await store.dispatch(
+            PERMISSION_NAMESPACE + "/" + GENERATE_ROUTES,
+            {
+              role
+            }
+          );
+          // 添加路由信息
+          router.addRoutes(accessedRoutes);
+          console.log("permission routes: ", store.getters.permission_routes);
 
-        // hack method to ensure that addRoutes is complete
-        // set the replace: true, so the navigation will not leave a history record
-        next({ ...to, replace: true });
+          // hack method to ensure that addRoutes is complete
+          // set the replace: true, so the navigation will not leave a history record
+          next({ ...to, replace: true });
+        } catch (error) {
+          sessionStorage.clear();
+          Message.error(error);
+          next("/login");
+        }
       } else {
         // 已经拉取完用户信息
         next();

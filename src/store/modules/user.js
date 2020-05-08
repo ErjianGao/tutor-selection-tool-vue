@@ -64,7 +64,7 @@ const myActions = {
     }
   },
 
-  async [types.GET_USER]({ commit }) {
+  async [types.UPDATE_USER]({ commit }) {
     let resp = await axios.get("profile");
     console.log("user: ", resp.data.user);
 

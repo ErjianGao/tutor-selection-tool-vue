@@ -96,7 +96,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["isCollapse"])
+    ...mapState(APP_NAMESPACE, ["isCollapse"])
   }
 };
 </script>
