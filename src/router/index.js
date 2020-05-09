@@ -26,6 +26,7 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: "/",
+    name: "root",
     component: Layout,
     meta: { roles: ["teacher", "student", "admin"] },
     children: [
@@ -37,6 +38,7 @@ export const asyncRouterMap = [
 
       {
         path: "settings",
+        name: "settings",
         meta: { roles: ["teacher", "student", "admin"] },
         component: () => import("@/views/settings/index.vue")
       },

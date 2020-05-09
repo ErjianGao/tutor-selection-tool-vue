@@ -1,16 +1,10 @@
 <template>
   <el-breadcrumb separator="/">
-    <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
     <template v-for="(list, index) in breads">
-      <el-breadcrumb-item v-if="!(list === '首页')" :key="index">
+      <el-breadcrumb-item :key="index">
         {{ list }}
       </el-breadcrumb-item>
     </template>
-
-    <!-- <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-    <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-    <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
   </el-breadcrumb>
 </template>
 
