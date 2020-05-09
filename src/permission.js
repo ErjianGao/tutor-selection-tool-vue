@@ -17,7 +17,7 @@ const whiteList = ["/login"];
 // 在获得token之后我们就要去获取用户的基本信息了
 router.beforeEach(async (to, from, next) => {
   // 退出登录
-  console.log(to.path);
+  // console.log(to.path);
   if (to.path === "/logout") {
     sessionStorage.clear();
     next({ path: "/login" });
@@ -47,7 +47,7 @@ router.beforeEach(async (to, from, next) => {
           );
           // 添加路由信息
           router.addRoutes(accessedRoutes);
-          console.log("permission routes: ", store.getters.permission_routes);
+          // console.log("permission routes: ", store.getters.permission_routes);
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record

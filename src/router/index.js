@@ -42,9 +42,25 @@ export const asyncRouterMap = [
       },
 
       {
+        path: "directions",
+        component: () => import("@/views/table/DirectionTable")
+      },
+
+      {
         path: "teachers",
         meta: { roles: ["admin"] },
-        component: () => import("@/views/settings/index.vue")
+        component: () => import("@/views/table/TeacherTable")
+      },
+
+      {
+        path: "students",
+        meta: { roles: ["admin", "teacher"] },
+        component: () => import("@/views/table/StudentTable")
+      },
+
+      {
+        path: "courses",
+        component: () => import("@/views/table/CourseTable")
       }
     ]
   },

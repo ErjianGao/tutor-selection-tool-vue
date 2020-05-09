@@ -36,10 +36,7 @@ import {
 export default {
   name: "ChangeInfo",
   async created() {
-    await this.$store.dispatch(
-      USER_NAMESPACE + "/" + GET_DIRECTIONS,
-      UPDATE_DIRECTIONS
-    );
+    await this.$store.dispatch(USER_NAMESPACE + "/" + GET_DIRECTIONS);
   },
   data: () => ({
     CheckboxGroup: this.student_directions

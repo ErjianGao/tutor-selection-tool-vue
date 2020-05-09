@@ -1,17 +1,31 @@
 import vue from "vue";
 import vuex from "vuex";
+import { GET_TEACHERS, UPDATE_TEACHERS } from "@/store/types";
+import axios from "axios";
 
 vue.use(vuex);
 
-const myState = {};
+const myState = {
+  teachers: []
+};
 
-const myMutations = {};
+const myMutations = {
+  [UPDATE_TEACHERS](state, data) {
+    state.teachers = data;
+  }
+};
 
-const myActions = {};
+const myActions = {
+  async [GET_TEACHERS]({ commit }, data) {
+    let resp = await axios.get("/admin/teachers");
+    console.log("teachers: ", resp.data);
+    commit(UPDATE_TEACHERS, resp.data);
+  }
+};
 
 export const adminModule = {
   namespaced: true,
   state: myState,
   mutations: myMutations,
-  acttions: myActions
+  actions: myActions
 };

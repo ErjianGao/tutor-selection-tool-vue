@@ -29,10 +29,10 @@ const myActions = {
   [types.GENERATE_ROUTES]({ commit }, data) {
     // 返回Promise对象处理异步请求
     return new Promise(resolve => {
-      console.log("Generate routes");
+      // console.log("Generate routes");
       const role = data.role;
       const accessedRouters = asyncRouterMap.filter(routerObject => {
-        console.log(routerObject);
+        // console.log(routerObject);
         // 管理员全部返回true
         if (role === "admin") return true;
 
@@ -54,7 +54,7 @@ const myActions = {
 
         return false;
       });
-      console.log(accessedRouters);
+      // console.log(accessedRouters);
       commit(types.UPDATE_ROUTES, accessedRouters);
       // 激活调用者的then方法，并且将参数作为返回值返回
       resolve(accessedRouters);

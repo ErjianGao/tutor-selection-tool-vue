@@ -24,16 +24,19 @@ function decodeRole(roleKey) {
 
 const myState = {
   // user
+  id: null,
   name: null,
   identityNo: null,
   role: null,
-  directions: [],
   isLogin: false
 };
 
 const myMutations = {
   [types.LOGIN](state, data) {
     state.isLogin = data;
+  },
+  [types.UPDATE_ID](state, data) {
+    state.id = data;
   },
   [types.UPDATE_ROLE](state, data) {
     state.role = data;
@@ -72,6 +75,7 @@ const myActions = {
     let resp = await axios.get("profile");
     console.log("user: ", resp.data);
 
+    commit(types.UPDATE_ID, resp.data.id);
     commit(types.UPDATE_NAME, resp.data.name);
     commit(types.UPDATE_IDENTITY_NO, resp.data.identityNo);
     commit(types.UPDATE_ROLE, decodeRole(sessionStorage.getItem(ROLE)));
@@ -82,12 +86,6 @@ const myActions = {
     commit(types.UPDATE_IDENTITY_NO, null);
     commit(types.UPDATE_ROLE, null);
     commit(types.LOGIN, false);
-  },
-
-  async [types.UPDATE_DIRECTIONS]({ commit }) {
-    let resp = await axios.get("directions");
-    console.log("directions: ", resp.data);
-    commit(UPDATE_DIRECTIONS, resp.data);
   }
 };
 
