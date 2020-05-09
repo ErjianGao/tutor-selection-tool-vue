@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import store from "@/store/index";
 import * as types from "@/store/types";
 import * as consts from "@/util/consts";
 import axios from "@/util/axios";
@@ -8,6 +7,7 @@ import { STUDENT_ROLE } from "@/util/consts";
 import { TEACHER_ROLE } from "@/util/consts";
 import { ADMIN_ROLE } from "@/util/consts";
 import { ROLE } from "@/util/consts";
+import { UPDATE_DIRECTIONS } from "@/store/types";
 
 Vue.use(Vuex);
 
@@ -27,6 +27,7 @@ const myState = {
   name: null,
   identityNo: null,
   role: null,
+  directions: [],
   isLogin: false
 };
 
@@ -42,6 +43,9 @@ const myMutations = {
   },
   [types.UPDATE_IDENTITY_NO](state, data) {
     state.identityNo = data;
+  },
+  [types.UPDATE_DIRECTIONS](state, data) {
+    state.directions = data;
   }
 };
 
@@ -57,7 +61,7 @@ const myActions = {
         consts.AUTHORIZATION,
         resp.headers[consts.AUTHORIZATION]
       );
-      let role = resp.data.role;
+      let role = resp.data;
       console.log("login role: ", role);
       sessionStorage.setItem(ROLE, role);
       commit(types.LOGIN, true);
@@ -66,10 +70,10 @@ const myActions = {
 
   async [types.UPDATE_USER]({ commit }) {
     let resp = await axios.get("profile");
-    console.log("user: ", resp.data.user);
+    console.log("user: ", resp.data);
 
-    commit(types.UPDATE_NAME, resp.data.user.name);
-    commit(types.UPDATE_IDENTITY_NO, resp.data.user.identityNo);
+    commit(types.UPDATE_NAME, resp.data.name);
+    commit(types.UPDATE_IDENTITY_NO, resp.data.identityNo);
     commit(types.UPDATE_ROLE, decodeRole(sessionStorage.getItem(ROLE)));
   },
 
@@ -78,6 +82,12 @@ const myActions = {
     commit(types.UPDATE_IDENTITY_NO, null);
     commit(types.UPDATE_ROLE, null);
     commit(types.LOGIN, false);
+  },
+
+  async [types.UPDATE_DIRECTIONS]({ commit }) {
+    let resp = await axios.get("directions");
+    console.log("directions: ", resp.data);
+    commit(UPDATE_DIRECTIONS, resp.data);
   }
 };
 

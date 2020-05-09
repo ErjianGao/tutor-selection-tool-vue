@@ -1,8 +1,15 @@
 const getters = {
-  isLogin: state => state.userModule.isLogin,
-  name: state => state.userModule.name,
-  identityNo: state => state.userModule.identityNo,
-  role: state => state.userModule.role,
-  permission_routes: state => state.permissionModule.routes
+  // user
+  isLogin: state => state.user.isLogin,
+  name: state => state.user.name,
+  identityNo: state => state.user.identityNo,
+  role: state => state.user.role,
+  directions: state => state.user.directions,
+  // student
+  student_directions: state => state.student.directions,
+  teacher: state => state.student.teacher,
+  // teacher
+  // permission
+  permission_routes: state => state.permission.routes
 };
 export default getters;

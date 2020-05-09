@@ -35,7 +35,6 @@
       <el-col :span="16">
         <el-card>
           <NavMenu></NavMenu>
-          <router-view></router-view>
         </el-card>
       </el-col>
     </el-row>

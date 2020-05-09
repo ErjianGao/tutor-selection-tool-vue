@@ -1,35 +1,29 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    active-text-color="#9393fc"
-    @select="handleSelect"
-  >
-    <el-menu-item index="1">基本信息</el-menu-item>
-    <el-menu-item index="2">密码修改</el-menu-item>
-  </el-menu>
+  <el-tabs active-name="first">
+    <el-tab-pane label="基本信息" name="first">
+      <ChangeInfo></ChangeInfo>
+    </el-tab-pane>
+    <el-tab-pane label="密码修改" name="second">
+      <ChangePassword></ChangePassword>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
+import ChangeInfo from "@/views/settings/components/ChangeInfo";
+import ChangePassword from "@/views/settings/components/ChangePassword";
 export default {
   name: "NavMenu",
-  data: () => ({
-    activeIndex: "1"
-  }),
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
-  }
+  components: {
+    ChangeInfo,
+    ChangePassword
+  },
+  data: () => ({}),
+  methods: {}
 };
 </script>
 
 <style scoped>
-/* .el-menu.el-menu--horizontal {
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.164) !important;
-} */
-
 .el-menu-item:hover {
   background: none !important;
 }
