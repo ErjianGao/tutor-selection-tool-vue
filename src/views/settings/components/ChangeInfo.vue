@@ -15,14 +15,14 @@
     </el-form-item>
 
     <el-form-item v-if="role === 'student'" label="方向">
-      <div style="margin-top: 20px">
-        <el-checkbox-group v-model="this.studentDirections" size="small">
+      <div>
+        <el-checkbox-group v-model="CheckboxGroup" size="small">
           <el-checkbox-button
-            v-for="direction in directions"
-            :label="direction"
-            :key="direction"
+            v-for="direction in this.directions"
+            :label="direction.name"
+            :key="direction.name"
           >
-            {{ direction }}
+            {{ direction.name }}
           </el-checkbox-button>
         </el-checkbox-group>
       </div>
@@ -45,32 +45,40 @@ import {
 
 export default {
   name: "ChangeInfo",
+  props: ["studentDirections"],
   async created() {
-    console.log(1);
-
     // 获取所有的可选方向
     await this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_DIRECTIONS);
-    await this.$store.dispatch(
-      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS
-    );
+    console.log(this.studentDirections);
   },
-  data: () => ({
-    // CheckboxGroup: this.studentDirections
-  }),
+  data() {
+    return {
+      // 注意这里接收父组件传递给子组件的值，这是如果对组件进行双向绑定
+      // ，并且对传递给子组件的值进行修改的话，不会对父组件造成影响，并且vue会进行报错，
+      // 此时应该换一个变量，对新的变量进行更改
+      CheckboxGroup: this.studentDirections
+    };
+  },
   methods: {
     async submitForm(infoForm) {
-      await this.$store.dispatch(
-        STUDENT_NAMESPACE + "/" + UPDATE_STUDENT_DIRECTIONS,
-        {
-          directions: this.CheckboxGroup
-        }
-      );
+      try {
+        await this.$store.dispatch(
+          STUDENT_NAMESPACE + "/" + UPDATE_STUDENT_DIRECTIONS,
+          {
+            id: this.id,
+            directions: this.CheckboxGroup
+          }
+        );
+      } catch (e) {
+        this.$message.error("修改失败");
+      }
+      this.$message.success("修改成功");
     }
   },
   computed: {
-    ...mapGetters(["name", "identityNo", "role"]),
+    ...mapGetters(["id", "name", "identityNo", "role"]),
 
-    ...mapState(STUDENT_NAMESPACE, ["directions", "studentDirections"])
+    ...mapState(STUDENT_NAMESPACE, ["directions"])
   }
 };
 </script>

@@ -38,7 +38,7 @@
 
       <el-col :span="16">
         <el-card>
-          <NavMenu></NavMenu>
+          <NavMenu :studentDirections="this.studentDirections"></NavMenu>
         </el-card>
       </el-col>
     </el-row>

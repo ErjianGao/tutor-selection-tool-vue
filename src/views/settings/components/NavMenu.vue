@@ -1,7 +1,7 @@
 <template>
   <el-tabs active-name="first">
     <el-tab-pane label="基本信息" name="first">
-      <ChangeInfo></ChangeInfo>
+      <ChangeInfo :studentDirections="this.studentDirections"></ChangeInfo>
     </el-tab-pane>
     <el-tab-pane label="密码修改" name="second">
       <ChangePassword></ChangePassword>
@@ -14,6 +14,7 @@ import ChangeInfo from "@/views/settings/components/ChangeInfo";
 import ChangePassword from "@/views/settings/components/ChangePassword";
 export default {
   name: "NavMenu",
+  props: ["studentDirections"],
   components: {
     ChangeInfo,
     ChangePassword

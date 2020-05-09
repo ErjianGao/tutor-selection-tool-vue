@@ -24,6 +24,7 @@ const myMutations = {
   },
   [UPDATE_DIRECTIONS](state, data) {
     state.directions = data;
+    console.log("muta directions: ", state.directions);
   },
   [ADD_DIRECTION](state, data) {
     state.directions.push(data);
@@ -33,7 +34,15 @@ const myMutations = {
 const myActions = {
   async [GET_STUDENT_DIRECTIONS]({ commit }) {
     let resp = await axios.get("/student/profile");
-    commit(UPDATE_DIRECTIONS, resp.data.directions);
+    console.log("student dir", resp);
+    commit(UPDATE_STUDENT_DIRECTIONS, resp.data.directions);
+  },
+
+  async [UPDATE_STUDENT_DIRECTIONS]({ commit }, data) {
+    console.log(data);
+    let resp = await axios.patch("student/settings", data);
+    console.log(resp);
+    commit(UPDATE_STUDENT_DIRECTIONS, resp.data.directions);
   },
 
   async [GET_DIRECTIONS]({ commit }) {
