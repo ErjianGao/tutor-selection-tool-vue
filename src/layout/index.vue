@@ -14,7 +14,11 @@
 </template>
 
 <script>
-import { Sidebar, Header, AppMain, Footer } from "./components/";
+import Sidebar from "@/layout/components/Sidebar";
+import Header from "@/layout/components/Header";
+import AppMain from "@/layout/components/AppMain";
+import Footer from "@/layout/components/Footer";
+
 export default {
   components: {
     Sidebar,

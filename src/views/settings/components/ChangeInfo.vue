@@ -1,14 +1,22 @@
 <template>
-  <el-form ref="form" label-width="80px">
+  <el-form ref="infoForm" label-width="80px">
     <el-form-item label="姓名">
       <el-input :value="name" disabled></el-input>
     </el-form-item>
-    <el-form-item label="ID号">
+
+    <el-form-item v-if="role === 'student'" label="学号">
       <el-input :value="identityNo" disabled></el-input>
     </el-form-item>
-    <el-form-item label="方向">
+    <el-form-item v-if="role === 'teacher'" label="工号">
+      <el-input :value="identityNo" disabled></el-input>
+    </el-form-item>
+    <el-form-item v-if="role === 'admin'" label="用户名">
+      <el-input :value="identityNo" disabled></el-input>
+    </el-form-item>
+
+    <el-form-item v-if="role === 'student'" label="方向">
       <div style="margin-top: 20px">
-        <el-checkbox-group v-model="checkboxGroup" size="small">
+        <el-checkbox-group v-model="this.studentDirections" size="small">
           <el-checkbox-button
             v-for="direction in directions"
             :label="direction"
@@ -19,6 +27,7 @@
         </el-checkbox-group>
       </div>
     </el-form-item>
+
     <el-form-item class="submit-button">
       <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
     </el-form-item>
@@ -26,23 +35,42 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import {
   GET_DIRECTIONS,
-  UPDATE_DIRECTIONS,
-  USER_NAMESPACE
+  GET_STUDENT_DIRECTIONS,
+  STUDENT_NAMESPACE,
+  UPDATE_STUDENT_DIRECTIONS
 } from "@/store/types";
 
 export default {
   name: "ChangeInfo",
   async created() {
-    await this.$store.dispatch(USER_NAMESPACE + "/" + GET_DIRECTIONS);
+    console.log(1);
+
+    // 获取所有的可选方向
+    await this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_DIRECTIONS);
+    await this.$store.dispatch(
+      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS
+    );
   },
   data: () => ({
-    CheckboxGroup: this.student_directions
+    // CheckboxGroup: this.studentDirections
   }),
+  methods: {
+    async submitForm(infoForm) {
+      await this.$store.dispatch(
+        STUDENT_NAMESPACE + "/" + UPDATE_STUDENT_DIRECTIONS,
+        {
+          directions: this.CheckboxGroup
+        }
+      );
+    }
+  },
   computed: {
-    ...mapGetters(["name", "identityNo", "student_directions", "directions"])
+    ...mapGetters(["name", "identityNo", "role"]),
+
+    ...mapState(STUDENT_NAMESPACE, ["directions", "studentDirections"])
   }
 };
 </script>

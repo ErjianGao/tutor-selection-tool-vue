@@ -18,16 +18,20 @@
                 class="iconfont icon-xuesheng"
               ></i>
             </div>
-            <p class="name">{{ name }}</p>
 
-            <p class="identityNo">{{ identityNo }}</p>
-            <div v-if="role === 'student'">
-              <div v-if="direction != null">
-                <i class="iconfont icon-iconfonticon-dianyu"></i>
-              </div>
+            <div class="info">
+              <p class="name">{{ name }}</p>
+              <p class="identityNo">{{ identityNo }}</p>
             </div>
-            <div v-else-if="role === 'teacher'"></div>
-            <div v-else-if="role === 'admin'"></div>
+
+            <div
+              class="direction"
+              v-if="
+                this.role === 'student' && this.studentDirections.length !== 0
+              "
+            >
+              <i class="iconfont icon-iconfonticon-dianyu"></i>
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -43,22 +47,30 @@
 
 <script>
 import NavMenu from "./components/NavMenu";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
+import { GET_STUDENT_DIRECTIONS, STUDENT_NAMESPACE } from "@/store/types";
 
 export default {
+  async created() {
+    await this.$store.dispatch(
+      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS
+    );
+  },
   data: () => ({}),
   components: {
     NavMenu
   },
   methods: {},
   computed: {
-    ...mapGetters(["role", "name", "identityNo"])
+    ...mapGetters(["role", "name", "identityNo"]),
+
+    ...mapState(STUDENT_NAMESPACE, ["studentDirections"])
   }
 };
 </script>
 
 <style scoped>
-i {
+.avatar i {
   font-size: 7em !important;
 }
 
@@ -82,6 +94,10 @@ i {
   margin-bottom: 10px;
 }
 
+.info {
+  padding-bottom: 10px;
+}
+
 .name {
   margin: 10px;
   font-size: 1.5em;
@@ -92,5 +108,15 @@ i {
   margin: 10px;
   font-size: 1.2em;
   color: #909399;
+}
+
+.direction {
+  border-top: 2px dashed #dcdfe6;
+  padding: 10px;
+  text-align: left;
+}
+
+.direction i {
+  font-size: 2em;
 }
 </style>

@@ -2,6 +2,7 @@ import vue from "vue";
 import vuex from "vuex";
 import axios from "axios";
 import {
+  ADD_DIRECTION,
   GET_DIRECTIONS,
   GET_STUDENT_DIRECTIONS,
   UPDATE_DIRECTIONS,
@@ -12,29 +13,38 @@ vue.use(vuex);
 
 const myState = {
   directions: [],
-  student_directions: [],
+  studentDirections: [],
   teacher: null
 };
 
 const myMutations = {
   [UPDATE_STUDENT_DIRECTIONS](state, data) {
-    state.student_directions = data;
+    state.studentDirections = data;
+    console.log("studentDirections: ", state.studentDirections);
   },
   [UPDATE_DIRECTIONS](state, data) {
     state.directions = data;
+  },
+  [ADD_DIRECTION](state, data) {
+    state.directions.push(data);
   }
 };
 
 const myActions = {
-  // async [GET_STUDENT_DIRECTIONS]({ commit }) {
-  //   let resp = await axios.get("/api/student/profile");
-  //   console.log(resp);
-  //   commit(UPDATE_DIRECTIONS, resp.data.directions());
-  // },
+  async [GET_STUDENT_DIRECTIONS]({ commit }) {
+    let resp = await axios.get("/student/profile");
+    commit(UPDATE_DIRECTIONS, resp.data.directions);
+  },
 
   async [GET_DIRECTIONS]({ commit }) {
     let resp = await axios.get("directions");
     console.log("directions: ", resp.data);
+    commit(UPDATE_DIRECTIONS, resp.data);
+  },
+
+  async [ADD_DIRECTION]({ commit }, data) {
+    let resp = await axios.post("teacher/directions", data);
+    console.log("add direction: ", resp.data);
     commit(UPDATE_DIRECTIONS, resp.data);
   }
 };

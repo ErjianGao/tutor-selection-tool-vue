@@ -11,10 +11,12 @@ export const UPDATE_IDENTITY_NO = "updateIdentityNo";
 export const UPDATE_USER = "updateUser";
 export const UPDATE_ROUTES = "updateRoutes";
 export const GENERATE_ROUTES = "generateRoutes";
+export const UPDATE_PASSWORD = "updatePassword";
 
 // student
 export const UPDATE_DIRECTIONS = "updateDirections";
 export const GET_DIRECTIONS = "getDirections";
+export const ADD_DIRECTION = "addDirection";
 export const UPDATE_STUDENT_DIRECTIONS = "updateStudentDirections";
 export const GET_STUDENT_DIRECTIONS = "getStudentDirections";
 

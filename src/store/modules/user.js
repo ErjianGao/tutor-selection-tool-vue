@@ -3,11 +3,7 @@ import Vuex from "vuex";
 import * as types from "@/store/types";
 import * as consts from "@/util/consts";
 import axios from "@/util/axios";
-import { STUDENT_ROLE } from "@/util/consts";
-import { TEACHER_ROLE } from "@/util/consts";
-import { ADMIN_ROLE } from "@/util/consts";
-import { ROLE } from "@/util/consts";
-import { UPDATE_DIRECTIONS } from "@/store/types";
+import { STUDENT_ROLE, TEACHER_ROLE, ADMIN_ROLE, ROLE } from "@/util/consts";
 
 Vue.use(Vuex);
 
@@ -79,6 +75,11 @@ const myActions = {
     commit(types.UPDATE_NAME, resp.data.name);
     commit(types.UPDATE_IDENTITY_NO, resp.data.identityNo);
     commit(types.UPDATE_ROLE, decodeRole(sessionStorage.getItem(ROLE)));
+  },
+
+  async [types.UPDATE_PASSWORD]({ commit }, data) {
+    let resp = await axios.patch("/settings/password", data);
+    console.log(resp.data);
   },
 
   async [types.LOGOUT]({ commit }) {
