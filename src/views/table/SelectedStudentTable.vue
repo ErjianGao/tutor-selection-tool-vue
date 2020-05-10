@@ -3,7 +3,11 @@
     <el-row>
       <el-col :span="24">
         <el-card>
-          <el-table :data="this.students" style="width: 100%" :fit="true">
+          <el-table
+            :data="this.selectedStudents"
+            style="width: 100%"
+            :fit="true"
+          >
             <el-table-column prop="identityNo" label="学号"></el-table-column>
             <el-table-column prop="name" label="姓名"></el-table-column>
             <el-table-column
@@ -23,15 +27,15 @@
 
 <script>
 import { mapState } from "vuex";
-import { GET_STUDENTS, TEACHER_NAMESPACE } from "@/store/types";
+import { GET_SELECTED_STUDENTS, TEACHER_NAMESPACE } from "@/store/types";
 
 export default {
   async created() {
-    await this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+    await this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_SELECTED_STUDENTS);
   },
 
   computed: {
-    ...mapState(TEACHER_NAMESPACE, ["students"])
+    ...mapState(TEACHER_NAMESPACE, ["selectedStudents"])
   }
 };
 </script>

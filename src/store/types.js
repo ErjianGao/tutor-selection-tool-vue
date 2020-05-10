@@ -25,6 +25,8 @@ export const UPDATE_STUDENTS = "updateStudents";
 export const GET_STUDENTS = "getStudents";
 export const UPDATE_COURSES = "updateCourses";
 export const GET_COURSES = "getCourses";
+export const UPDATE_SELECTED_STUDENTS = "updateSelectedStudents";
+export const GET_SELECTED_STUDENTS = "getSelectedStudents";
 
 // admin
 export const UPDATE_TEACHERS = "updateTeachers";
