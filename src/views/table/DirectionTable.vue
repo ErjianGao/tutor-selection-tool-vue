@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class="buttons">
+    <el-row v-if="false" class="buttons">
       <el-col :span="1">
         <el-tooltip
           class="item"
@@ -35,8 +35,9 @@
             <el-table-column prop="name" label="可选方向"></el-table-column>
             <el-table-column
               prop="insertTime"
-              label="插入时间"
+              label="更新时间"
             ></el-table-column>
+            <el-table-column prop="student.name" label="学生"></el-table-column>
           </el-table>
         </el-card>
       </el-col>

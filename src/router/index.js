@@ -44,19 +44,25 @@ export const asyncRouterMap = [
 
       {
         path: "directions",
-        component: () => import("@/views/table/DirectionTable/index")
+        component: () => import("@/views/table/DirectionTable")
       },
 
       {
         path: "teachers",
-        meta: { roles: ["admin"] },
+        meta: { roles: ["student", "admin"] },
         component: () => import("@/views/table/TeacherTable")
       },
 
       {
         path: "students",
         meta: { roles: ["admin", "teacher"] },
-        component: () => import("@/views/table/StudentTable/index")
+        component: () => import("@/views/table/StudentTable")
+      },
+
+      {
+        path: "selectedStudents",
+        meta: { roles: ["teacher"] },
+        component: () => import("@/views/table/SelectedStudentTable")
       },
 
       {

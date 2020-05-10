@@ -30,7 +30,19 @@
                 this.role === 'student' && this.studentDirections.length !== 0
               "
             >
-              <i class="iconfont icon-iconfonticon-dianyu"></i>
+              <div class="tag-group">
+                <span class="tag-group__title">
+                  <i class="iconfont icon-iconfonticon-dianyu"></i>
+                </span>
+                <el-tag
+                  v-for="(item, index) in this.studentDirections"
+                  :key="index"
+                  type=""
+                  effect="light"
+                >
+                  {{ item.name }}
+                </el-tag>
+              </div>
             </div>
           </div>
         </el-card>
@@ -118,5 +130,9 @@ export default {
 
 .direction i {
   font-size: 2em;
+}
+
+.el-tag {
+  margin: 5px;
 }
 </style>

@@ -17,7 +17,7 @@ const myMutations = {
 
 const myActions = {
   async [GET_TEACHERS]({ commit }, data) {
-    let resp = await axios.get("/admin/teachers");
+    let resp = await axios.get("/student/teachers");
     console.log("teachers: ", resp.data);
     commit(UPDATE_TEACHERS, resp.data);
   }
