@@ -7,56 +7,50 @@
     :collapse="isCollapse"
     background-color="#ffffff"
     text-color="#000000"
-    active-text-color="#9393fc"
+    active-text-color="rgb(123, 48, 221)"
     @select="handleMenuSelect"
     router
   >
-    <el-menu-item route="home" index="首页">
+    <el-menu-item index="/home">
       <i class="el-icon-s-home"></i>
       <span slot="title">首页</span>
     </el-menu-item>
 
     <el-menu-item
       v-if="role === 'admin' || role === 'teacher'"
-      route="directions"
-      index="方向列表"
+      index="/directions"
     >
       <i class="el-icon-s-promotion"></i>
       <span slot="title">学生方向</span>
     </el-menu-item>
 
-    <el-menu-item v-if="role === 'teacher'" route="courses" index="课程列表">
+    <el-menu-item v-if="role === 'teacher'" index="/courses">
       <i class="el-icon-s-order"></i>
       <span slot="title">课程列表</span>
     </el-menu-item>
 
-    <el-menu-item v-if="role === 'admin'" route="students" index="学生列表">
+    <el-menu-item v-if="role === 'admin'" index="/students">
       <i class="el-icon-s-order"></i>
       <span slot="title">学生列表</span>
     </el-menu-item>
 
-    <el-submenu v-if="role === 'teacher'" index="学生列表">
+    <el-submenu v-if="role === 'teacher'" index="/students">
       <template slot="title">
         <i class="el-icon-school"></i>
         <span slot="title">学生列表</span>
       </template>
 
-      <el-menu-item route="students" class="submenu-item" index="所有学生">
+      <el-menu-item class="submenu-item" index="/students/allStudents">
         所有学生
       </el-menu-item>
-      <el-menu-item
-        route="selectedStudents"
-        class="submenu-item"
-        index="已选学生"
-      >
+      <el-menu-item class="submenu-item" index="/students/selectedStudents">
         已选学生
       </el-menu-item>
     </el-submenu>
 
     <el-menu-item
       v-if="role === 'student' || role === 'admin'"
-      route="teachers"
-      index="教师列表"
+      index="/teachers"
     >
       <i class="el-icon-s-custom"></i>
       <span slot="title">教师列表</span>
@@ -79,11 +73,11 @@ export default {
     },
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
-    },
-    handleMenuSelect(index, indexPath) {
-      this.breads = indexPath;
-      this.$emit("switch", this.breads);
     }
+    // handleMenuSelect(index, indexPath) {
+    //   this.breads = indexPath;
+    //   this.$emit("switch", this.breads);
+    // }
   },
   computed: {
     ...mapState(APP_NAMESPACE, ["isCollapse"]),
