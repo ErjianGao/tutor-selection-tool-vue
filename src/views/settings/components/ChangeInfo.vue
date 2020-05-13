@@ -47,7 +47,7 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item class="submit-button">
+    <el-form-item v-if="role === 'student'" class="submit-button">
       <el-button type="primary" @click="submitForm('infoForm')">提交</el-button>
     </el-form-item>
   </el-form>

@@ -8,7 +8,6 @@
     background-color="#ffffff"
     text-color="#000000"
     active-text-color="rgb(123, 48, 221)"
-    @select="handleMenuSelect"
     router
   >
     <el-menu-item index="/home">

@@ -13,6 +13,14 @@
       {{ routerPath }}
     </span>
 
+    <span class="role-span">
+      <b>Role:</b>
+      {{ role }}
+      <i v-if="role === 'admin'" class="iconfont icon-guanliyuan"></i>
+      <i v-else-if="role === 'teacher'" class="iconfont icon-laoshi"></i>
+      <i v-else-if="role === 'student'" class="iconfont icon-xuesheng"></i>
+    </span>
+
     <div class="time">{{ date }}</div>
 
     <div class="box">
@@ -33,6 +41,9 @@
 </template>
 
 <script>
+import { USER_NAMESPACE } from "@/store/types";
+import { mapState } from "vuex";
+
 export default {
   created: function() {
     var _this = this; //声明一个变量指向Vue实例this，保证作用域一致
@@ -65,7 +76,8 @@ export default {
     },
     domainName() {
       return window.location.host;
-    }
+    },
+    ...mapState(USER_NAMESPACE, ["role"])
   }
 };
 </script>
@@ -98,7 +110,7 @@ export default {
 }
 
 .time {
-  margin-left: auto;
+  /*margin-left: auto;*/
   margin-right: 15px;
 }
 
@@ -133,5 +145,14 @@ i:hover {
 .left .el-tooltip__popper,
 .right .el-tooltip__popper {
   padding: 8px 10px;
+}
+
+.role-span {
+  margin-left: auto;
+  margin-right: 30px;
+}
+
+.role-span .iconfont {
+  font-weight: bold;
 }
 </style>
