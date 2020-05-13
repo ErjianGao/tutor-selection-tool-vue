@@ -1,6 +1,11 @@
 // app
 export const SWITCH_COLLAPSE = "switchCollapse";
 
+// permission
+export const UPDATE_ROUTES = "updateRoutes";
+export const GENERATE_ROUTES = "generateRoutes";
+export const RESET_ROUTES = "resetRoutes";
+
 // user
 export const LOGIN = "login";
 export const LOGOUT = "logout";
@@ -9,8 +14,6 @@ export const UPDATE_NAME = "updateName";
 export const UPDATE_ROLE = "updateRole";
 export const UPDATE_IDENTITY_NO = "updateIdentityNo";
 export const UPDATE_USER = "updateUser";
-export const UPDATE_ROUTES = "updateRoutes";
-export const GENERATE_ROUTES = "generateRoutes";
 export const UPDATE_PASSWORD = "updatePassword";
 
 // student

@@ -12,7 +12,8 @@ export const constantRouterMap = [
   },
 
   {
-    path: "/logout"
+    path: "/404",
+    component: () => import("@/views/error-page/404")
   }
 ];
 
@@ -26,19 +27,21 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: "/",
-    name: "root",
+    name: "rootPath",
     component: Layout,
-    meta: { roles: ["teacher", "student", "admin"] },
+    meta: { roles: ["student", "teacher", "admin"] },
     children: [
       {
         path: "home",
-        meta: { roles: ["teacher", "student", "admin"] },
+        meta: { roles: ["student", "teacher", "admin"] },
+
         component: () => import("@/views/home/index.vue")
       },
 
       {
         path: "settings",
-        meta: { roles: ["teacher", "student", "admin"] },
+        meta: { roles: ["student", "teacher", "admin"] },
+
         component: () => import("@/views/settings/index.vue")
       },
 
@@ -50,23 +53,27 @@ export const asyncRouterMap = [
       {
         path: "teachers",
         meta: { roles: ["student", "admin"] },
+
         component: () => import("@/views/table/TeacherTable")
       },
 
       {
         path: "students",
-        meta: { roles: ["admin", "teacher"] },
+        meta: { roles: ["teacher", "admin"] },
+
         component: () => import("@/views/table/StudentTable")
       },
 
       {
         path: "selectedStudents",
         meta: { roles: ["teacher"] },
+
         component: () => import("@/views/table/SelectedStudentTable")
       },
 
       {
         path: "courses",
+        meta: { roles: ["teacher"] },
         component: () => import("@/views/table/CourseTable")
       }
     ]
@@ -80,8 +87,6 @@ export const asyncRouterMap = [
 
 const createRouter = () =>
   new Router({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
     routes: constantRouterMap
   });
 
@@ -90,7 +95,8 @@ const router = createRouter();
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter();
-  router.matcher = newRouter.matcher; // reset router
+  // reset router
+  router.matcher = newRouter.matcher;
 }
 
 export default router;

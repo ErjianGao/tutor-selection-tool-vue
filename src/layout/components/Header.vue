@@ -87,11 +87,12 @@ export default {
       }
     },
 
-    async logout() {
+    logout() {
       console.log("logout");
       this.$message.success("已退出登录");
-      await this.$store.dispatch(USER_NAMESPACE + "/" + LOGOUT);
-      await this.$router.push("/logout");
+      this.$store.dispatch(USER_NAMESPACE + "/" + LOGOUT).then(() => {
+        this.$router.push("/login");
+      });
     }
   },
 

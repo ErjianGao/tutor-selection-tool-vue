@@ -1,7 +1,7 @@
 <template>
   <el-footer id="footer" height="28px">
     <div class="link-box">
-      <a href="https://github.com/ErjianGao">
+      <a target="_blank" href="https://github.com/ErjianGao">
         <i class="iconfont icon-GitHub"></i>
       </a>
     </div>
@@ -34,14 +34,6 @@
 
 <script>
 export default {
-  data: () => ({
-    date: new Date().toString().substr(0, 24)
-  }),
-  methods: {
-    reload() {
-      window.location.reload();
-    }
-  },
   created: function() {
     var _this = this; //声明一个变量指向Vue实例this，保证作用域一致
     this.timer = setInterval(function() {
@@ -50,11 +42,23 @@ export default {
       _this.date = new Date().toString().substr(0, 24); //修改数据date
     }, 1000);
   },
+
   beforeDestroy: function() {
     if (this.timer) {
       clearInterval(this.timer); //在Vue实例销毁前，清除定时器
     }
   },
+
+  data: () => ({
+    date: new Date().toString().substr(0, 24)
+  }),
+
+  methods: {
+    reload() {
+      window.location.reload();
+    }
+  },
+
   computed: {
     routerPath() {
       return this.$route.path;

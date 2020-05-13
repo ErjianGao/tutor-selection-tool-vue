@@ -55,21 +55,41 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let resp = this.$store
+          this.$store
             .dispatch(USER_NAMESPACE + "/" + LOGIN, {
               identityNo: this.userForm.identityNo,
               password: this.userForm.password
             })
-            .then(resp => {
-              this.$router.push("/home");
+            .then(() => {
+              // https://github.com/vuejs/vue-router/issues/2873
+              // 这里的路由跳转会返回一个Promise对象，如果路由跳转被拒绝会抛出一个Error，应该显示捕获异常
+              // 原因是Vue-Router版本到到3.1.0及以上之后，页面在跳转路由时如果next()被拒绝（我的路由表是在登录时动态生成的），会报Uncaught (in promise)，这里我一开始是使用await this.$router.push（一开始我也不知道push会返回Promise，ide提示我应该加await我才加的），结果路由访问被拒绝后返回了一个undefined的异常
+              this.$router.push("/home").catch(() => {});
               this.$message({
                 message: "登录成功",
                 type: "success"
               });
             })
-            .catch(error => {
-              this.$message.error("用户名密码错误哦");
+            .catch(e => {
+              console.log(e);
+              this.$message.error("登录失败");
             });
+
+          // try {
+          //   await this.$store.dispatch(USER_NAMESPACE + "/" + LOGIN, {
+          //     identityNo: this.userForm.identityNo,
+          //     password: this.userForm.password
+          //   });
+          //   // 路由不需要异步
+          //   await this.$router.push("/home");
+          //   this.$message({
+          //     message: "登录成功",
+          //     type: "success"
+          //   });
+          // } catch (e) {
+          //   console.log(e);
+          //   this.$message.error("e");
+          // }
         } else {
           this.$message.error("用户名或密码不能为空哦");
           console.log("error submit!");

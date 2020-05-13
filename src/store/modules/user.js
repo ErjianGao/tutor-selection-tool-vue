@@ -4,6 +4,7 @@ import * as types from "@/store/types";
 import * as consts from "@/util/consts";
 import axios from "@/util/axios";
 import { STUDENT_ROLE, TEACHER_ROLE, ADMIN_ROLE, ROLE } from "@/util/consts";
+import { resetRouter } from "@/router";
 
 Vue.use(Vuex);
 
@@ -83,10 +84,13 @@ const myActions = {
   },
 
   async [types.LOGOUT]({ commit }) {
+    sessionStorage.clear();
     commit(types.UPDATE_NAME, null);
     commit(types.UPDATE_IDENTITY_NO, null);
     commit(types.UPDATE_ROLE, null);
+    commit(types.UPDATE_ID, null);
     commit(types.LOGIN, false);
+    resetRouter();
   }
 };
 

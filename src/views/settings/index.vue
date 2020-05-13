@@ -63,10 +63,8 @@ import { mapGetters, mapState } from "vuex";
 import { GET_STUDENT_DIRECTIONS, STUDENT_NAMESPACE } from "@/store/types";
 
 export default {
-  async created() {
-    await this.$store.dispatch(
-      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS
-    );
+  created() {
+    this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS);
   },
   data: () => ({}),
   components: {

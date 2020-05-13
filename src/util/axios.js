@@ -39,6 +39,7 @@ axios.interceptors.response.use(
     console.log(resp.data.message);
 
     // store.commit(GET_EXCEPTION, resp.data.message);
+    // 返回一个新的rejected Promise对象
     return Promise.reject(error);
   }
 );
