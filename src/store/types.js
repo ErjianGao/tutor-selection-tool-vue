@@ -28,6 +28,7 @@ export const UPDATE_STUDENTS = "updateStudents";
 export const GET_STUDENTS = "getStudents";
 export const UPDATE_COURSES = "updateCourses";
 export const GET_COURSES = "getCourses";
+export const ADD_COURSE = "addCourse";
 export const UPDATE_SELECTED_STUDENTS = "updateSelectedStudents";
 export const GET_SELECTED_STUDENTS = "getSelectedStudents";
 

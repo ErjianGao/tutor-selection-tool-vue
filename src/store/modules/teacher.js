@@ -1,6 +1,7 @@
 import vue from "vue";
 import vuex from "vuex";
 import {
+  ADD_COURSE,
   GET_COURSES,
   GET_SELECTED_STUDENTS,
   GET_STUDENTS,
@@ -44,6 +45,14 @@ const myActions = {
     console.log("id: ", data.id);
     let resp = await axios.get(`teacher/${data.id}/courses`);
     commit(UPDATE_COURSES, resp.data);
+  },
+
+  async [ADD_COURSE]({ commit }, data) {
+    console.log("add course: ", data);
+    let resp = await axios.post("teacher/courses", data);
+    // let courses = state.courses;
+    // courses.push(resp.data);
+    // commit(UPDATE_COURSES, courses);
   },
 
   async [GET_SELECTED_STUDENTS]({ commit }, data) {

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view :key="$route.fullPath" />
+    <keep-alive include="Sidebar">
+      <router-view :key="$route.fullPath" />
+    </keep-alive>
     <!-- <alertdialog></alertdialog> -->
   </div>
 </template>

@@ -50,7 +50,7 @@ export default {
     };
 
     // 验证再次输入密码
-    var validatePass2 = (rule, value, callback) => {
+    let validatePass2 = (rule, value, callback) => {
       if (value !== this.passwordForm.newPass) {
         callback(new Error("两次输入密码不一致!"));
       } else {

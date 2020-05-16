@@ -17,11 +17,6 @@ export const constantRouterMap = [
   }
 ];
 
-// //实例化vue的时候只挂载constantRouter
-// export default new Router({
-//   routes: constantRouterMap
-// });
-
 //异步挂载的路由
 //动态需要根据权限加载的路由表
 export const asyncRouterMap = [
@@ -85,6 +80,7 @@ export const asyncRouterMap = [
   }
 ];
 
+//实例化vue的时候只挂载constantRouter
 const createRouter = () =>
   new Router({
     routes: constantRouterMap
