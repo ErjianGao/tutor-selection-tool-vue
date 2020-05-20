@@ -1,6 +1,7 @@
 module.exports = {
   // 开发环境配置
   devServer: {
+    disableHostCheck: true,
     // 默认端口
     port: 8081,
     proxy: {

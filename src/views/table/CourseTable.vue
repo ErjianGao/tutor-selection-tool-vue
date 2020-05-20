@@ -8,21 +8,28 @@
           content="增加课程"
           placement="top"
         >
-          <el-link :underline="false" @click="dialogFormVisible = true">
+          <el-link
+            :underline="false"
+            @click="addCourseDialogFormVisible = true"
+          >
             <i class="iconfont icon-jia"></i>
           </el-link>
         </el-tooltip>
       </el-col>
 
-      <el-dialog width="40%" title="添加课程" :visible.sync="dialogFormVisible">
+      <el-dialog
+        width="40%"
+        title="添加课程"
+        :visible.sync="addCourseDialogFormVisible"
+      >
         <el-form
-          :model="CourseForm"
+          :model="courseForm"
           :rules="rules"
-          ref="CourseForm"
+          ref="courseForm"
           label-position="left"
         >
           <el-form-item label="课程名称" prop="name" :label-width="'80px'">
-            <el-input v-model="CourseForm.name" autocomplete="off"></el-input>
+            <el-input v-model="courseForm.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item
             label="最低分数"
@@ -30,19 +37,21 @@
             :label-width="'80px'"
           >
             <el-input
-              v-model.number="CourseForm.cutOffMark"
+              v-model.number="courseForm.cutOffMark"
               autocomplete="off"
             ></el-input>
           </el-form-item>
           <el-form-item label="权值" prop="weight" :label-width="'80px'">
-            <el-input v-model="CourseForm.weight" autocomplete="off"></el-input>
+            <el-input v-model="courseForm.weight" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item class="dialog-buttons">
-            <el-button type="primary" @click="addCourse('CourseForm')">
-              确定
+            <el-button type="primary" @click="addCourse('courseForm')">
+              确 定
             </el-button>
-            <el-button @click="resetForm('CourseForm')">重置</el-button>
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button @click="resetForm('courseForm')">重 置</el-button>
+            <el-button @click="addCourseDialogFormVisible = false">
+              取 消
+            </el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -59,6 +68,83 @@
               label="最低分数"
             ></el-table-column>
             <el-table-column prop="weight" label="权值"></el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="handleEdit(scope.$index, scope.row)"
+                >
+                  编辑
+                </el-button>
+                <el-dialog
+                  width="40%"
+                  title="编辑课程"
+                  :visible.sync="editCourseDialogFormVisible"
+                >
+                  <el-form
+                    :model="editCourseForm"
+                    :rules="rules"
+                    ref="editCourseForm"
+                    label-position="left"
+                  >
+                    <el-form-item
+                      label="课程名称"
+                      prop="name"
+                      :label-width="'80px'"
+                    >
+                      <el-input
+                        v-model="editCourseForm.name"
+                        autocomplete="off"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                      label="最低分数"
+                      prop="cutOffMark"
+                      :label-width="'80px'"
+                    >
+                      <el-input
+                        v-model.number="editCourseForm.cutOffMark"
+                        autocomplete="off"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                      label="权值"
+                      prop="weight"
+                      :label-width="'80px'"
+                    >
+                      <el-input
+                        v-model="editCourseForm.weight"
+                        autocomplete="off"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item class="dialog-buttons">
+                      <el-button
+                        type="primary"
+                        @click="updateCourse('editCourseForm')"
+                      >
+                        确 定
+                      </el-button>
+                      <el-button @click="resetForm('editCourseForm')">
+                        重 置
+                      </el-button>
+                      <el-button @click="editCourseDialogFormVisible = false">
+                        取 消
+                      </el-button>
+                    </el-form-item>
+                  </el-form>
+                </el-dialog>
+
+                <el-popconfirm
+                  @onConfirm="handleDelete(scope.$index, scope.row)"
+                  trigger="hover"
+                  title="您确定删除课程吗？"
+                >
+                  <el-button size="mini" type="danger" slot="reference">
+                    删除
+                  </el-button>
+                </el-popconfirm>
+              </template>
+            </el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -70,13 +156,15 @@
 import { mapState } from "vuex";
 import {
   ADD_COURSE,
+  DELETE_COURSE,
   GET_COURSES,
   TEACHER_NAMESPACE,
+  UPDATE_COURSE,
   USER_NAMESPACE
 } from "@/store/types";
 
 function checkSameCourse(_self) {
-  let name = _self.CourseForm.name;
+  let name = _self.courseForm.name;
   console.log(name);
   let courses = _self.courses;
   console.log(courses);
@@ -94,7 +182,7 @@ function checkSameCourse(_self) {
 }
 
 function checkSumOfWeight(_self) {
-  let weight = parseFloat(_self.CourseForm.weight);
+  let weight = parseFloat(_self.courseForm.weight);
   console.log(weight);
   let courses = _self.courses;
   let sumWeight = 0;
@@ -108,6 +196,27 @@ function checkSumOfWeight(_self) {
   } else {
     console.log(weight + sumWeight);
     console.log("not stop");
+    return true;
+  }
+}
+
+function checkEditSumOfWeight(_self) {
+  let weight = parseFloat(_self.editCourseForm.weight);
+  let name = _self.editCourseForm.name;
+  console.log(weight);
+  let courses = _self.courses;
+  let sumWeight = 0;
+  courses.forEach(c => {
+    if (c.name !== name) {
+      sumWeight += c.weight;
+    }
+  });
+  console.log(sumWeight);
+  if (weight + sumWeight > 1) {
+    return false;
+  } else {
+    console.log(weight + sumWeight);
+    console.log("edit not stop");
     return true;
   }
 }
@@ -147,7 +256,14 @@ export default {
     };
 
     return {
-      CourseForm: {
+      courseForm: {
+        id: null,
+        name: null,
+        cutOffMark: null,
+        weight: null
+      },
+      editCourseForm: {
+        id: null,
         name: null,
         cutOffMark: null,
         weight: null
@@ -165,25 +281,29 @@ export default {
           { validator: checkWeight, trigger: "blur" }
         ]
       },
-      dialogFormVisible: false
+      addCourseDialogFormVisible: false,
+      editCourseDialogFormVisible: false
     };
   },
 
   methods: {
-    addCourse(CourseForm) {
+    addCourse(courseForm) {
       let _this = this;
-      this.$refs[CourseForm].validate(valid => {
+      this.$refs[courseForm].validate(valid => {
         if (valid) {
           if (checkSumOfWeight(_this) && checkSameCourse(_this)) {
             this.$store
               .dispatch(TEACHER_NAMESPACE + "/" + ADD_COURSE, {
-                name: _this.CourseForm.name,
-                cutOffMark: _this.CourseForm.cutOffMark,
-                weight: _this.CourseForm.weight
+                name: _this.courseForm.name,
+                cutOffMark: _this.courseForm.cutOffMark,
+                weight: _this.courseForm.weight
               })
               .then(() => {
-                _this.message.success("添加成功！");
-                _this.dialogFormVisible = false;
+                setTimeout(() => {
+                  window.location.reload();
+                }, 500);
+                this.$message.success("添加成功");
+                _this.addCourseDialogFormVisible = false;
               });
           } else {
             if (!checkSameCourse(_this)) {
@@ -202,6 +322,58 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+
+    handleEdit(index, row) {
+      this.editCourseDialogFormVisible = true;
+      this.editCourseForm.name = row.name;
+      this.editCourseForm.cutOffMark = row.cutOffMark;
+      this.editCourseForm.weight = row.weight;
+      this.editCourseForm.id = row.id;
+    },
+
+    updateCourse(editCourseForm) {
+      let _this = this;
+      _this.$refs[editCourseForm].validate(valid => {
+        if (valid) {
+          let sumOfWeight = checkEditSumOfWeight(_this);
+          if (sumOfWeight) {
+            this.$store
+              .dispatch(TEACHER_NAMESPACE + "/" + UPDATE_COURSE, {
+                id: _this.editCourseForm.id,
+                name: _this.editCourseForm.name,
+                cutOffMark: _this.editCourseForm.cutOffMark,
+                weight: _this.editCourseForm.weight
+              })
+              .then(() => {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 500);
+                this.$message.success("修改成功");
+                _this.editCourseDialogFormVisible = false;
+              });
+          } else {
+            if (!sumOfWeight) {
+              this.$message.error(
+                "您设置的权重综合以超过1，请重新设置目前的课程权重或修改已添加课程的权重"
+              );
+            }
+          }
+        } else {
+          this.$message.error("请按正确的格式填写哦");
+        }
+      });
+    },
+
+    handleDelete(index, row) {
+      this.$store
+        .dispatch(TEACHER_NAMESPACE + "/" + DELETE_COURSE, row.id)
+        .then(() => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+          this.$message.success("删除成功");
+        });
     }
   },
 
@@ -223,5 +395,14 @@ export default {
 
 >>> .el-dialog {
   border-radius: 10px;
+  text-align: center;
+}
+
+.dialog-buttons {
+  text-align: center;
+}
+
+.el-button {
+  margin-right: 5px;
 }
 </style>

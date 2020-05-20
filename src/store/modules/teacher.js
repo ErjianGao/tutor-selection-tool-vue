@@ -2,9 +2,11 @@ import vue from "vue";
 import vuex from "vuex";
 import {
   ADD_COURSE,
+  DELETE_COURSE,
   GET_COURSES,
   GET_SELECTED_STUDENTS,
   GET_STUDENTS,
+  UPDATE_COURSE,
   UPDATE_COURSES,
   UPDATE_SELECTED_STUDENTS,
   UPDATE_STUDENTS
@@ -53,6 +55,18 @@ const myActions = {
     // let courses = state.courses;
     // courses.push(resp.data);
     // commit(UPDATE_COURSES, courses);
+  },
+
+  async [UPDATE_COURSE]({ commit }, data) {
+    console.log(data);
+    console.log("update course: ", data);
+    let resp = await axios.patch("teacher/courses", data);
+  },
+
+  async [DELETE_COURSE]({ commit }, data) {
+    console.log(data);
+    console.log("delete course: ", data);
+    let resp = await axios.delete(`teacher/courses/${data}`);
   },
 
   async [GET_SELECTED_STUDENTS]({ commit }, data) {
