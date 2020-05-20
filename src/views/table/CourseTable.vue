@@ -140,7 +140,7 @@
                   title="您确定删除课程吗？"
                 >
                   <el-button size="mini" type="danger" slot="reference">
-                    删除
+                    删 除
                   </el-button>
                 </el-popconfirm>
               </template>

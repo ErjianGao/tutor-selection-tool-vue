@@ -2,7 +2,9 @@ import vue from "vue";
 import vuex from "vuex";
 import {
   ADD_COURSE,
+  ADD_STUDENT,
   DELETE_COURSE,
+  DELETE_STUDENT,
   GET_COURSES,
   GET_SELECTED_STUDENTS,
   GET_STUDENTS,
@@ -72,6 +74,17 @@ const myActions = {
   async [GET_SELECTED_STUDENTS]({ commit }, data) {
     let resp = await axios.get("teacher/selectedstudents");
     commit(UPDATE_SELECTED_STUDENTS, resp.data);
+  },
+
+  async [DELETE_STUDENT]({ commit }, data) {
+    let resp = await axios.delete(`teacher/students/${data}`);
+  },
+
+  async [ADD_STUDENT]({ commit }, data) {
+    let resp = await axios.post(
+      `teacher/courses/${data.cid}/student/${data.grade}`,
+      data.student
+    );
   }
 };
 
