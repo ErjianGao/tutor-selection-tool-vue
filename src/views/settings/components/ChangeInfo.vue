@@ -15,10 +15,10 @@
     </el-form-item>
 
     <el-form-item v-if="role === 'teacher'" label="最低排名">
-      <el-input :value="minRanking"></el-input>
+      <el-input v-model="teacherInfo.minRanking"></el-input>
     </el-form-item>
     <el-form-item v-if="role === 'teacher'" label="人数上限">
-      <el-input :value="maxStudentNumber"></el-input>
+      <el-input v-model="teacherInfo.maxStudentNumber"></el-input>
     </el-form-item>
 
     <!--    多选框写法-->
@@ -93,6 +93,9 @@ export default {
     //
     this.selectedDirections = this.studentDirections.map(d => d.name);
     // console.log("change info: ", this.studentDirections);
+
+    this.teacherInfo.minRanking = this.minRanking;
+    this.teacherInfo.maxStudentNumber = this.maxStudentNumber;
   },
 
   data() {
@@ -126,7 +129,11 @@ export default {
           label: "机器学习"
         }
       ],
-      selectedDirections: null
+      selectedDirections: null,
+      teacherInfo: {
+        minRanking: null,
+        maxStudentNumber: null
+      }
     };
   },
   methods: {
@@ -149,14 +156,10 @@ export default {
 
     submitTeacherInfo(infoForm) {
       this.$store
-        .dispatch(
-          TEACHER_NAMESPACE + "/" + UPDATE_TEACHER_INFO,
-          this.selectedDirections.map(item => {
-            return {
-              name: item
-            };
-          })
-        )
+        .dispatch(TEACHER_NAMESPACE + "/" + UPDATE_TEACHER_INFO, {
+          minRanking: this.teacherInfo.minRanking,
+          maxStudentNumber: this.teacherInfo.maxStudentNumber
+        })
         .then(() => {
           this.$message.success("修改成功");
         })

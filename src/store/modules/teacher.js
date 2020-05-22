@@ -74,8 +74,10 @@ const myActions = {
   },
 
   async [UPDATE_TEACHER_INFO]({ commit }, data) {
-    let resp = await axios.patch("teacher/requirements", data);
-    commit[(UPDATE_TEACHER_INFO, resp.data)];
+    let resp = await axios.patch(
+      `teacher/requirements/minRanking/${data.minRanking}/maxStudentNumber/${data.maxStudentNumber}`
+    );
+    commit(UPDATE_TEACHER_INFO, resp.data);
   },
 
   async [UPDATE_COURSE]({ commit }, data) {
