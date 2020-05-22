@@ -31,7 +31,12 @@
     <el-row>
       <el-col :span="24">
         <el-card>
-          <el-table :data="this.directions" style="width: 100%" :fit="true">
+          <el-table
+            stripe
+            :data="this.directions"
+            style="width: 100%"
+            :fit="true"
+          >
             <el-table-column prop="name" label="可选方向"></el-table-column>
             <el-table-column
               prop="insertTime"

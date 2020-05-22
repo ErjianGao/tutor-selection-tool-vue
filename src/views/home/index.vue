@@ -6,7 +6,7 @@
         <h1 class="title">欢迎使用毕业设计师生互选系统!</h1>
       </el-card>
     </el-col>
-    <el-col :span="6">
+    <el-col :span="7">
       <el-card shadow="always">
         <div slot="header" class="clearfix">
           <span>项目信息</span>

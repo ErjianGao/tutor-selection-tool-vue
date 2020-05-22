@@ -30,8 +30,8 @@
         </div>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>
-          <router-link to="/settings">个人中心</router-link>
+        <el-dropdown-item @click.native="$router.push('/settings')">
+          个人中心
         </el-dropdown-item>
         <el-dropdown-item @click.native="logout" divided>
           退出登录

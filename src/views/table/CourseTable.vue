@@ -60,7 +60,7 @@
     <el-row>
       <el-col :span="24">
         <el-card>
-          <el-table :data="this.courses" style="width: 100%" :fit="true">
+          <el-table stripe :data="this.courses" style="width: 100%" :fit="true">
             <el-table-column prop="teacher.name" label="导师"></el-table-column>
             <el-table-column prop="name" label="课程名称"></el-table-column>
             <el-table-column
