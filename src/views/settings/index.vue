@@ -64,7 +64,10 @@ import { GET_STUDENT_DIRECTIONS, STUDENT_NAMESPACE } from "@/store/types";
 
 export default {
   created() {
-    this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS);
+    this.$store.dispatch(
+      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS,
+      this.id
+    );
   },
   data: () => ({}),
   components: {
@@ -72,7 +75,7 @@ export default {
   },
   methods: {},
   computed: {
-    ...mapGetters(["role", "name", "identityNo"]),
+    ...mapGetters(["role", "name", "identityNo", "id"]),
 
     ...mapState(STUDENT_NAMESPACE, ["studentDirections"])
   }

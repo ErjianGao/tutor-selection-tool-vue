@@ -68,7 +68,8 @@ export default {
 
   async created() {
     await this.$store.dispatch(
-      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS
+      STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS,
+      this.id
     );
     //
     this.selectedDirections = this.studentDirections.map(d => d.name);

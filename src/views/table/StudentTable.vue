@@ -102,16 +102,41 @@
             style="width: 100%"
             :fit="true"
           >
+            <el-table-column type="expand">
+              <template slot-scope="props">
+                <el-form label-position="left" class="demo-table-expand">
+                  <el-form-item label="学号">
+                    <span>{{ props.row.identityNo }}</span>
+                  </el-form-item>
+                  <el-form-item label="姓名">
+                    <span>{{ props.row.name }}</span>
+                  </el-form-item>
+                  <el-form-item label="插入时间">
+                    <span>{{ props.row.insertTime }}</span>
+                  </el-form-item>
+                  <el-form-item label="毕设方向">
+                    <el-button @click="getDirections(props.$index, props.row)">
+                      点击异步获取方向
+                    </el-button>
+                    <el-tag
+                      v-for="(item, index) in studentDirections"
+                      :key="index"
+                      type=""
+                      effect="light"
+                    >
+                      {{ item.name }}
+                    </el-tag>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="identityNo" label="学号"></el-table-column>
             <el-table-column prop="name" label="姓名"></el-table-column>
             <el-table-column
               prop="teacher.name"
               label="已选导师"
-            ></el-table-column>
-            <el-table-column
-              prop="insertTime"
-              label="插入时间"
             ></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -134,12 +159,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import {
+  ADD_ELECTIVES,
   ADD_STUDENT,
+  ADD_STUDENTS,
   DELETE_STUDENT,
   GET_COURSES,
+  GET_STUDENT_DIRECTIONS,
   GET_STUDENTS,
+  STUDENT_NAMESPACE,
   TEACHER_NAMESPACE,
   USER_NAMESPACE
 } from "@/store/types";
@@ -159,7 +188,8 @@ export default {
       deleteVisible: false,
       fileList: [],
       multipleSelection: [],
-      fullscreenLoading: false
+      fullscreenLoading: false,
+      directions: []
     };
   },
 
@@ -187,20 +217,76 @@ export default {
       this.fullscreenLoading = true;
       console.log(file);
       readSutdentsFile(file.raw).then(async data => {
-        for (let i = 0; i < data.length; i++) {
-          await this.$store.dispatch(TEACHER_NAMESPACE + "/" + ADD_STUDENT, {
-            cid: row.id,
-            grade: data[i].score,
+        console.log(data);
+        let electives = [];
+        data.forEach(student => {
+          electives.push({
+            course: {
+              id: row.id
+            },
+            grade: student.score,
             student: {
-              identityNo: data[i].number,
-              name: data[i].name
+              name: student.name,
+              identityNo: student.number
             }
           });
-        }
-        this.$message.success("导入成功");
-        window.location.reload();
-        this.addStudentVisible = false;
-        this.fullscreenLoading = false;
+        });
+
+        this.$store
+          .dispatch(TEACHER_NAMESPACE + "/" + ADD_ELECTIVES, electives)
+          .then(() => {
+            this.$message.success("导入成功");
+            this.addStudentVisible = false;
+            this.fullscreenLoading = false;
+          })
+          .catch(() => {
+            this.$message.error("导入失败");
+            this.addStudentVisible = false;
+            this.fullscreenLoading = false;
+          });
+        // let students = [];
+        // data.forEach(student => {
+        //   console.log(student);
+        //   students.push({
+        //     identityNo: student.number,
+        //     name: student.name,
+        //     electives: [
+        //       {
+        //         course: {
+        //           id: row.id
+        //         },
+        //         grade: student.score
+        //       }
+        //     ]
+        //   });
+        // });
+        // console.log(students);
+        // this.$store
+        //   .dispatch(TEACHER_NAMESPACE + "/" + ADD_STUDENTS, {
+        //     cid: row.id,
+        //     students: students
+        //   })
+        //   .then(() => {
+        //     this.$message.success("导入成功");
+        //     this.addStudentVisible = false;
+        //     this.fullscreenLoading = false;
+        //   })
+        //   .catch(() => {
+        //     this.$message.error("导入失败");
+        //     this.addStudentVisible = false;
+        //     this.fullscreenLoading = false;
+        //   });
+
+        // for (let i = 0; i < data.length; i++) {
+        //   await this.$store.dispatch(TEACHER_NAMESPACE + "/" + ADD_STUDENTS, {
+        //     cid: row.id,
+        //     grade: data[i].score,
+        //     student: {
+        //       identityNo: data[i].number,
+        //       name: data[i].name
+        //     }
+        //   });
+        // }
       });
     },
 
@@ -230,12 +316,21 @@ export default {
       } else {
         this.deleteVisible = true;
       }
+    },
+
+    getDirections(index, row) {
+      console.log(row);
+      this.$store.dispatch(
+        STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS,
+        row.id
+      );
     }
   },
 
   computed: {
-    ...mapState(USER_NAMESPACE, ["id"]),
-    ...mapState(TEACHER_NAMESPACE, ["students", "courses"])
+    ...mapState(USER_NAMESPACE, ["role", "name", "identityNo", "id"]),
+    ...mapState(TEACHER_NAMESPACE, ["students", "courses"]),
+    ...mapState(STUDENT_NAMESPACE, ["studentDirections"])
   }
 };
 </script>
@@ -252,5 +347,18 @@ export default {
 
 .buttons .iconfont {
   font-size: 1.6em;
+}
+
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand >>> label {
+  width: 120px;
+  color: #99a9bf;
+}
+.demo-table-expand >>> .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
 }
 </style>

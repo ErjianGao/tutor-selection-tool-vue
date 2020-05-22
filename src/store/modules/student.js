@@ -32,8 +32,8 @@ const myMutations = {
 };
 
 const myActions = {
-  async [GET_STUDENT_DIRECTIONS]({ commit }) {
-    let resp = await axios.get("student/directions");
+  async [GET_STUDENT_DIRECTIONS]({ commit }, data) {
+    let resp = await axios.get(`student/${data}/directions`);
     console.log("student dir", resp.data);
     commit(UPDATE_STUDENT_DIRECTIONS, resp.data);
   },

@@ -1,13 +1,17 @@
+import store from "@/store";
 import vue from "vue";
 import vuex from "vuex";
 import {
   ADD_COURSE,
+  ADD_ELECTIVES,
   ADD_STUDENT,
+  ADD_STUDENTS,
   DELETE_COURSE,
   DELETE_STUDENT,
   GET_COURSES,
   GET_SELECTED_STUDENTS,
   GET_STUDENTS,
+  TEACHER_NAMESPACE,
   UPDATE_COURSE,
   UPDATE_COURSES,
   UPDATE_SELECTED_STUDENTS,
@@ -39,11 +43,6 @@ const myMutations = {
 };
 
 const myActions = {
-  async [GET_STUDENTS]({ commit }, data) {
-    let resp = await axios.get("teacher/students");
-    commit(UPDATE_STUDENTS, resp.data);
-  },
-
   // 获取老师选择的课程信息
   async [GET_COURSES]({ commit }, data) {
     console.log("id: ", data.id);
@@ -71,6 +70,11 @@ const myActions = {
     let resp = await axios.delete(`teacher/courses/${data}`);
   },
 
+  async [GET_STUDENTS]({ commit }, data) {
+    let resp = await axios.get("teacher/students");
+    commit(UPDATE_STUDENTS, resp.data);
+  },
+
   async [GET_SELECTED_STUDENTS]({ commit }, data) {
     let resp = await axios.get("teacher/selectedstudents");
     commit(UPDATE_SELECTED_STUDENTS, resp.data);
@@ -85,6 +89,19 @@ const myActions = {
       `teacher/courses/${data.cid}/student/${data.grade}`,
       data.student
     );
+  },
+
+  async [ADD_STUDENTS]({ commit }, data) {
+    let resp = await axios.post(
+      `teacher/courses/${data.cid}/students`,
+      data.students
+    );
+    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+  },
+
+  async [ADD_ELECTIVES]({ commit }, data) {
+    let resp = await axios.post("teacher/students", data);
+    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
   }
 };
 
