@@ -98,7 +98,12 @@
             ref="multipleTable"
             :row-class-name="tableRowClassName"
             @selection-change="handleSelectionChange"
-            :data="this.students"
+            :data="
+              students.slice(
+                (currentPage - 1) * pagesize,
+                currentPage * pagesize
+              )
+            "
             style="width: 100%"
             :fit="true"
           >
@@ -172,6 +177,17 @@
               </template>
             </el-table-column>
           </el-table>
+          <div style="text-align: center;margin-top: 30px;">
+            <el-pagination
+              background
+              layout="prev, pager, next, sizes, total, jumper"
+              :page-sizes="[5, 10, 15, 20]"
+              :page-size="pagesize"
+              :total="students.length"
+              @current-change="handleCurrentChange"
+              @size-change="handleSizeChange"
+            ></el-pagination>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -206,17 +222,32 @@ export default {
     this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_DIRECTIONS);
   },
 
+  current_change: function(currentPage) {
+    this.currentPage = currentPage;
+  },
+
   data() {
     return {
       addStudentVisible: false,
       deleteVisible: false,
       fileList: [],
       multipleSelection: [],
-      fullscreenLoading: false
+      fullscreenLoading: false,
+      total: 37,
+      pagesize: 10,
+      currentPage: 1
     };
   },
 
   methods: {
+    handleCurrentChange(cpage) {
+      this.currentPage = cpage;
+    },
+
+    handleSizeChange(psize) {
+      this.pagesize = psize;
+    },
+
     tableRowClassName({ row, rowIndex }) {
       if (row.teacher !== undefined && row.teacher.name === this.name) {
         return "success-row";
@@ -245,7 +276,9 @@ export default {
         .then(() => {
           this.$message.success("选择成功");
         })
-        .catch(e => {});
+        .catch(e => {
+          this.$message.error("互选失败");
+        });
     },
 
     handleDeleteSelect(index, row) {
