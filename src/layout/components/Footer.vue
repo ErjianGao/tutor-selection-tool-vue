@@ -90,6 +90,11 @@ export default {
   background-color: #1d2935;
   color: #ffffff;
   padding: 6px 4px;
+  position: fixed;
+  bottom: 0;
+  height: 28px;
+  width: 100%;
+  z-index: 1000;
 }
 .link-box:hover {
   color: #000000;
