@@ -115,16 +115,13 @@
                     <span>{{ props.row.insertTime }}</span>
                   </el-form-item>
                   <el-form-item label="毕设方向">
-                    <el-button @click="getDirections(props.$index, props.row)">
-                      点击异步获取方向
-                    </el-button>
                     <el-tag
-                      v-for="(item, index) in studentDirections"
+                      v-for="(item, index) in studentDirections(props.row.id)"
                       :key="index"
                       type=""
                       effect="light"
                     >
-                      {{ item.name }}
+                      {{ item }}
                     </el-tag>
                   </el-form-item>
                 </el-form>
@@ -166,6 +163,7 @@ import {
   ADD_STUDENTS,
   DELETE_STUDENT,
   GET_COURSES,
+  GET_DIRECTIONS,
   GET_STUDENT_DIRECTIONS,
   GET_STUDENTS,
   STUDENT_NAMESPACE,
@@ -180,6 +178,7 @@ export default {
     this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_COURSES, {
       id: this.id
     });
+    this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_DIRECTIONS);
   },
 
   data() {
@@ -188,8 +187,7 @@ export default {
       deleteVisible: false,
       fileList: [],
       multipleSelection: [],
-      fullscreenLoading: false,
-      directions: []
+      fullscreenLoading: false
     };
   },
 
@@ -236,11 +234,13 @@ export default {
           .dispatch(TEACHER_NAMESPACE + "/" + ADD_ELECTIVES, electives)
           .then(() => {
             this.$message.success("导入成功");
+            this.fileList = [];
             this.addStudentVisible = false;
             this.fullscreenLoading = false;
           })
           .catch(() => {
             this.$message.error("导入失败");
+            this.fileList = [];
             this.addStudentVisible = false;
             this.fullscreenLoading = false;
           });
@@ -324,13 +324,24 @@ export default {
         STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS,
         row.id
       );
+    },
+
+    studentDirections(sid) {
+      let studentDirections = this.directions.filter(direction => {
+        if (direction.student.id === sid) return direction;
+      });
+      let directionNames = [];
+      studentDirections.forEach(studentDirection => {
+        directionNames.push(studentDirection.name);
+      });
+      return directionNames;
     }
   },
 
   computed: {
     ...mapState(USER_NAMESPACE, ["role", "name", "identityNo", "id"]),
     ...mapState(TEACHER_NAMESPACE, ["students", "courses"]),
-    ...mapState(STUDENT_NAMESPACE, ["studentDirections"])
+    ...mapState(STUDENT_NAMESPACE, ["directions"])
   }
 };
 </script>
@@ -359,6 +370,9 @@ export default {
 .demo-table-expand >>> .el-form-item {
   margin-right: 0;
   margin-bottom: 0;
-  width: 50%;
+}
+
+.el-tag {
+  margin-right: 10px;
 }
 </style>
