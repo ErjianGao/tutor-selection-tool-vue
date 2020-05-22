@@ -14,6 +14,13 @@
       <el-input :value="identityNo" disabled></el-input>
     </el-form-item>
 
+    <el-form-item v-if="role === 'teacher'" label="最低排名">
+      <el-input :value="minRanking"></el-input>
+    </el-form-item>
+    <el-form-item v-if="role === 'teacher'" label="人数上限">
+      <el-input :value="maxStudentNumber"></el-input>
+    </el-form-item>
+
     <!--    多选框写法-->
     <!--    <el-form-item v-if="role === 'student'" label="方向">-->
     <!--      <div>-->
@@ -50,6 +57,11 @@
     <el-form-item v-if="role === 'student'" class="submit-button">
       <el-button type="primary" @click="submitForm('infoForm')">提交</el-button>
     </el-form-item>
+    <el-form-item v-if="role === 'teacher'" class="submit-button">
+      <el-button type="primary" @click="submitTeacherInfo('infoForm')">
+        提交
+      </el-button>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -58,8 +70,11 @@ import { mapGetters, mapState } from "vuex";
 import {
   GET_DIRECTIONS,
   GET_STUDENT_DIRECTIONS,
+  GET_TEACHER_INFO,
   STUDENT_NAMESPACE,
-  UPDATE_STUDENT_DIRECTIONS
+  TEACHER_NAMESPACE,
+  UPDATE_STUDENT_DIRECTIONS,
+  UPDATE_TEACHER_INFO
 } from "@/store/types";
 import store from "@/store";
 
@@ -67,6 +82,10 @@ export default {
   name: "ChangeInfo",
 
   async created() {
+    await this.$store.dispatch(
+      TEACHER_NAMESPACE + "/" + GET_TEACHER_INFO,
+      this.id
+    );
     await this.$store.dispatch(
       STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS,
       this.id
@@ -126,12 +145,30 @@ export default {
       }
       this.$message.success("修改成功");
       window.location.reload();
+    },
+
+    submitTeacherInfo(infoForm) {
+      this.$store
+        .dispatch(
+          TEACHER_NAMESPACE + "/" + UPDATE_TEACHER_INFO,
+          this.selectedDirections.map(item => {
+            return {
+              name: item
+            };
+          })
+        )
+        .then(() => {
+          this.$message.success("修改成功");
+        })
+        .catch(() => {
+          this.$message.error("修改失败");
+        });
     }
   },
   computed: {
     ...mapGetters(["id", "name", "identityNo", "role"]),
-
-    ...mapState(STUDENT_NAMESPACE, ["studentDirections"])
+    ...mapState(STUDENT_NAMESPACE, ["studentDirections"]),
+    ...mapState(TEACHER_NAMESPACE, ["minRanking", "maxStudentNumber"])
   }
 };
 </script>

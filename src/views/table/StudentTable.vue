@@ -20,7 +20,6 @@
         :visible.sync="addStudentVisible"
       >
         <el-table :data="this.courses" style="width: 100%" :fit="true">
-          1
           <el-table-column prop="name" label="课程名称"></el-table-column>
           <el-table-column width="180" label="操作">
             <template slot-scope="scope">
@@ -97,6 +96,7 @@
         <el-card>
           <el-table
             ref="multipleTable"
+            :row-class-name="tableRowClassName"
             @selection-change="handleSelectionChange"
             :data="this.students"
             style="width: 100%"
@@ -138,6 +138,29 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-popconfirm
+                  v-if="
+                    scope.row.teacher !== undefined &&
+                      scope.row.teacher.name === name
+                  "
+                  @onConfirm="handleDeleteSelect(scope.$index, scope.row)"
+                  trigger="hover"
+                  title="您确定取消选中该学生吗？"
+                >
+                  <el-button size="mini" type="warning" slot="reference">
+                    取 消 选 择
+                  </el-button>
+                </el-popconfirm>
+                <el-popconfirm
+                  v-else
+                  @onConfirm="handleSelect(scope.$index, scope.row)"
+                  trigger="hover"
+                  title="您确定选择该学生吗？"
+                >
+                  <el-button size="mini" type="success" slot="reference">
+                    提 前 选 择
+                  </el-button>
+                </el-popconfirm>
+                <el-popconfirm
                   @onConfirm="handleDelete(scope.$index, scope.row)"
                   trigger="hover"
                   title="您确定删除学生吗？"
@@ -159,8 +182,10 @@
 import { mapGetters, mapState } from "vuex";
 import {
   ADD_ELECTIVES,
+  ADD_SELECTED_STUDENT,
   ADD_STUDENT,
   ADD_STUDENTS,
+  DELETE_SELECTED_STUDENT,
   DELETE_STUDENT,
   GET_COURSES,
   GET_DIRECTIONS,
@@ -192,6 +217,13 @@ export default {
   },
 
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (row.teacher !== undefined && row.teacher.name === this.name) {
+        return "success-row";
+      }
+      return "";
+    },
+
     downloadTemplate() {
       window.open("./file/课程成绩单模板.xls");
     },
@@ -204,6 +236,26 @@ export default {
             window.location.reload();
           }, 500);
           this.$message.success("删除成功");
+        });
+    },
+
+    handleSelect(index, row) {
+      this.$store
+        .dispatch(TEACHER_NAMESPACE + "/" + ADD_SELECTED_STUDENT, row.id)
+        .then(() => {
+          this.$message.success("选择成功");
+        })
+        .catch(e => {});
+    },
+
+    handleDeleteSelect(index, row) {
+      this.$store
+        .dispatch(TEACHER_NAMESPACE + "/" + DELETE_SELECTED_STUDENT, row.id)
+        .then(() => {
+          this.$message.success("成功取消互选");
+        })
+        .catch(() => {
+          this.$message.error("取消失败");
         });
     },
 
@@ -351,6 +403,10 @@ export default {
   margin-bottom: 15px !important;
 }
 
+.el-button {
+  margin-right: 10px;
+}
+
 >>> .el-dialog {
   border-radius: 10px;
   text-align: center;
@@ -374,5 +430,13 @@ export default {
 
 .el-tag {
   margin-right: 10px;
+}
+
+.el-table >>> .warning-row {
+  background: oldlace;
+}
+
+.el-table >>> .success-row {
+  background: #f0f9eb;
 }
 </style>

@@ -24,6 +24,8 @@ export const UPDATE_STUDENT_DIRECTIONS = "updateStudentDirections";
 export const GET_STUDENT_DIRECTIONS = "getStudentDirections";
 
 // teacher
+export const GET_TEACHER_INFO = "getTeacherInfo";
+export const UPDATE_TEACHER_INFO = "updateTeacherInfo";
 export const UPDATE_STUDENTS = "updateStudents";
 export const GET_STUDENTS = "getStudents";
 export const ADD_STUDENT = "addStudent";
@@ -35,6 +37,8 @@ export const ADD_COURSE = "addCourse";
 export const UPDATE_COURSE = "updateCourse";
 export const DELETE_COURSE = "deleteCourse";
 export const UPDATE_SELECTED_STUDENTS = "updateSelectedStudents";
+export const ADD_SELECTED_STUDENT = "addSelectedStudent";
+export const DELETE_SELECTED_STUDENT = "deleteSelectedStudent";
 export const GET_SELECTED_STUDENTS = "getSelectedStudents";
 export const DELETE_STUDENT = "deleteStudent";
 
