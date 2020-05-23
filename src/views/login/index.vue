@@ -8,7 +8,8 @@
         label-width="60px"
         class="demo-ruleForm"
       >
-        <h3 class="login-title">SYSTEM LOGIN</h3>
+        <el-image :src="require('@/assets/img/system-logo.png')"></el-image>
+
         <el-form-item label="账号" prop="identityNo">
           <el-input
             v-model="userForm.identityNo"
@@ -24,9 +25,9 @@
         </el-form-item>
         <el-form-item class="login-button">
           <el-button type="primary" @click="submitForm('userForm')">
-            登录
+            登 录
           </el-button>
-          <el-button @click="resetForm('userForm')">重置</el-button>
+          <el-button @click="resetForm('userForm')">重 置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -110,13 +111,22 @@ export default {
 
 <style scoped>
 .login-container {
-  height: 300px;
+  background-image: url("../../assets/img/background.jpg");
+}
+
+.login-container {
+  height: max-content;
   width: 500px;
-  border: 2px solid #ebeef5;
+  /*border: 2px solid #ebeef5;*/
   border-radius: 20px;
   margin: 150px auto;
-  padding: 30px 40px 30px 15px;
+  padding: 30px 40px 30px 40px;
   box-shadow: 0 0 20px #ebeef5;
+}
+
+.el-image {
+  width: 300px;
+  margin-bottom: 30px;
 }
 
 .login-title {
