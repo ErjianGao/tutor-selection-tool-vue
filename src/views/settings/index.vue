@@ -44,13 +44,19 @@
                 </el-tag>
               </div>
             </div>
+            <div v-if="selectedTeacher !== undefined" class="teacher">
+              <i class="iconfont icon-laoshi"></i>
+              <el-tag type="success" effect="light">
+                {{ selectedTeacher.name }}老师
+              </el-tag>
+            </div>
           </div>
         </el-card>
       </el-col>
 
       <el-col :span="16">
         <el-card>
-          <NavMenu :studentDirections="this.studentDirections"></NavMenu>
+          <NavMenu :studentDirections="studentDirections"></NavMenu>
         </el-card>
       </el-col>
     </el-row>
@@ -60,7 +66,13 @@
 <script>
 import NavMenu from "./components/NavMenu";
 import { mapGetters, mapState } from "vuex";
-import { GET_STUDENT_DIRECTIONS, STUDENT_NAMESPACE } from "@/store/types";
+import {
+  GET_COURSES,
+  GET_SELECTED_TEACHER,
+  GET_STUDENT_DIRECTIONS,
+  STUDENT_NAMESPACE,
+  TEACHER_NAMESPACE
+} from "@/store/types";
 
 export default {
   created() {
@@ -68,6 +80,8 @@ export default {
       STUDENT_NAMESPACE + "/" + GET_STUDENT_DIRECTIONS,
       this.id
     );
+    this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_SELECTED_TEACHER);
+    this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_COURSES);
   },
   data: () => ({}),
   components: {
@@ -77,7 +91,8 @@ export default {
   computed: {
     ...mapGetters(["role", "name", "identityNo", "id"]),
 
-    ...mapState(STUDENT_NAMESPACE, ["studentDirections"])
+    ...mapState(STUDENT_NAMESPACE, ["studentDirections", "selectedTeacher"]),
+    ...mapState(TEACHER_NAMESPACE, ["courses"])
   }
 };
 </script>
@@ -123,13 +138,15 @@ export default {
   color: #909399;
 }
 
-.direction {
+.direction,
+.teacher {
   border-top: 2px dashed #dcdfe6;
   padding: 10px;
   text-align: left;
 }
 
-.direction i {
+.direction i,
+.teacher i {
   font-size: 2em;
 }
 

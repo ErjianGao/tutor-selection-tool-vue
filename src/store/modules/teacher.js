@@ -7,6 +7,7 @@ import {
   ADD_SELECTED_STUDENT,
   ADD_STUDENT,
   ADD_STUDENTS,
+  ADMIN_NAMESPACE,
   DELETE_COURSE,
   DELETE_SELECTED_STUDENT,
   DELETE_STUDENT,
@@ -14,6 +15,7 @@ import {
   GET_SELECTED_STUDENTS,
   GET_STUDENTS,
   GET_TEACHER_INFO,
+  GET_TEACHERS,
   TEACHER_NAMESPACE,
   UPDATE_COURSE,
   UPDATE_COURSES,
@@ -112,6 +114,7 @@ const myActions = {
     console.log("sid: ", data);
     let resp = await axios.delete(`teacher/selectedstudents/${data}`);
     await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+    await store.dispatch(ADMIN_NAMESPACE + "/" + GET_TEACHERS);
   },
 
   async [DELETE_STUDENT]({ commit }, data) {

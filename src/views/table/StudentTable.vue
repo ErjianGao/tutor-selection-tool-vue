@@ -107,6 +107,7 @@
             style="width: 100%"
             :fit="true"
           >
+            <el-table-column type="index"></el-table-column>
             <el-table-column type="expand">
               <template slot-scope="props">
                 <el-form label-position="left" class="demo-table-expand">
@@ -329,49 +330,6 @@ export default {
             this.addStudentVisible = false;
             this.fullscreenLoading = false;
           });
-        // let students = [];
-        // data.forEach(student => {
-        //   console.log(student);
-        //   students.push({
-        //     identityNo: student.number,
-        //     name: student.name,
-        //     electives: [
-        //       {
-        //         course: {
-        //           id: row.id
-        //         },
-        //         grade: student.score
-        //       }
-        //     ]
-        //   });
-        // });
-        // console.log(students);
-        // this.$store
-        //   .dispatch(TEACHER_NAMESPACE + "/" + ADD_STUDENTS, {
-        //     cid: row.id,
-        //     students: students
-        //   })
-        //   .then(() => {
-        //     this.$message.success("导入成功");
-        //     this.addStudentVisible = false;
-        //     this.fullscreenLoading = false;
-        //   })
-        //   .catch(() => {
-        //     this.$message.error("导入失败");
-        //     this.addStudentVisible = false;
-        //     this.fullscreenLoading = false;
-        //   });
-
-        // for (let i = 0; i < data.length; i++) {
-        //   await this.$store.dispatch(TEACHER_NAMESPACE + "/" + ADD_STUDENTS, {
-        //     cid: row.id,
-        //     grade: data[i].score,
-        //     student: {
-        //       identityNo: data[i].number,
-        //       name: data[i].name
-        //     }
-        //   });
-        // }
       });
     },
 

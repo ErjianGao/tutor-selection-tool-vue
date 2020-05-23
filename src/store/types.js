@@ -22,6 +22,10 @@ export const GET_DIRECTIONS = "getDirections";
 export const ADD_DIRECTION = "addDirection";
 export const UPDATE_STUDENT_DIRECTIONS = "updateStudentDirections";
 export const GET_STUDENT_DIRECTIONS = "getStudentDirections";
+export const UPDATE_SELECTED_TEACHER = "updateSelectedTeacher";
+export const GET_SELECTED_TEACHER = "getSelectedTeacher";
+export const UPDATE_ALL_COURSES = "UpdateAllCourses";
+export const GET_ALL_COURSES = "getAllCourses";
 
 // teacher
 export const GET_TEACHER_INFO = "getTeacherInfo";
