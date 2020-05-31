@@ -3,6 +3,7 @@ import vuex from "vuex";
 import axios from "axios";
 import {
   ADD_DIRECTION,
+  ADD_SELECTED_TEACHER,
   GET_ALL_COURSES,
   GET_DIRECTIONS,
   GET_SELECTED_TEACHER,
@@ -13,7 +14,6 @@ import {
   UPDATE_SELECTED_TEACHER,
   UPDATE_STUDENT_DIRECTIONS
 } from "@/store/types";
-import da from "element-ui/src/locale/lang/da";
 
 vue.use(vuex);
 
@@ -72,6 +72,11 @@ const myActions = {
 
   async [GET_SELECTED_TEACHER]({ commit }, data) {
     let resp = await axios.get("student/profile");
+    commit(UPDATE_SELECTED_TEACHER, resp.data.teacher);
+  },
+
+  async [ADD_SELECTED_TEACHER]({ commit }, data) {
+    let resp = await axios.patch(`student/teachers/${data.tid}`);
     commit(UPDATE_SELECTED_TEACHER, resp.data.teacher);
   },
 

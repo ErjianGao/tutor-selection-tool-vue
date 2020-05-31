@@ -103,6 +103,7 @@
 <script>
 import { mapState } from "vuex";
 import {
+  ADD_SELECTED_TEACHER,
   ADMIN_NAMESPACE,
   DELETE_SELECTED_STUDENT,
   GET_ALL_COURSES,
@@ -129,7 +130,11 @@ export default {
   },
 
   methods: {
-    handleSelect(index, row) {},
+    handleSelect(index, row) {
+      this.$store.dispatch(STUDENT_NAMESPACE + "/" + ADD_SELECTED_TEACHER, {
+        tid: row.id
+      });
+    },
 
     tableRowClassName({ row, rowIndex }) {
       if (
@@ -152,9 +157,9 @@ export default {
         });
     },
 
-    async handleCoursesDrawer(index, row) {
+    handleCoursesDrawer(index, row) {
       this.courseDrawerVisible = true;
-      await this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_COURSES, {
+      this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_COURSES, {
         id: row.id
       });
     }

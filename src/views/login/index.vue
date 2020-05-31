@@ -119,7 +119,7 @@ export default {
   width: 500px;
   /*border: 2px solid #ebeef5;*/
   border-radius: 20px;
-  margin: 150px auto;
+  margin: 150px auto 100px auto;
   padding: 30px 40px 30px 40px;
   box-shadow: 0 0 20px #ebeef5;
 }

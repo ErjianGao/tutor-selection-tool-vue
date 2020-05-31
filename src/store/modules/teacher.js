@@ -119,22 +119,23 @@ const myActions = {
 
   async [DELETE_STUDENT]({ commit }, data) {
     let resp = await axios.delete(`teacher/students/${data}`);
-  },
-
-  async [ADD_STUDENT]({ commit }, data) {
-    let resp = await axios.post(
-      `teacher/courses/${data.cid}/student/${data.grade}`,
-      data.student
-    );
-  },
-
-  async [ADD_STUDENTS]({ commit }, data) {
-    let resp = await axios.post(
-      `teacher/courses/${data.cid}/students`,
-      data.students
-    );
     await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
   },
+
+  // async [ADD_STUDENT]({ commit }, data) {
+  //   let resp = await axios.post(
+  //     `teacher/courses/${data.cid}/student/${data.grade}`,
+  //     data.student
+  //   );
+  // },
+
+  // async [ADD_STUDENTS]({ commit }, data) {
+  //   let resp = await axios.post(
+  //     `teacher/courses/${data.cid}/students`,
+  //     data.students
+  //   );
+  //   await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+  // },
 
   async [ADD_ELECTIVES]({ commit }, data) {
     let resp = await axios.post("teacher/students", data);

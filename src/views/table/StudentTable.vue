@@ -98,13 +98,14 @@
             ref="multipleTable"
             :row-class-name="tableRowClassName"
             @selection-change="handleSelectionChange"
+            style="width: 100%"
+            :row-key="rowKey"
             :data="
               students.slice(
                 (currentPage - 1) * pagesize,
                 currentPage * pagesize
               )
             "
-            style="width: 100%"
             :fit="true"
           >
             <el-table-column type="index"></el-table-column>
@@ -134,7 +135,11 @@
               </template>
             </el-table-column>
 
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column
+              type="selection"
+              :reserve-selection="true"
+              width="55"
+            ></el-table-column>
             <el-table-column prop="identityNo" label="学号"></el-table-column>
             <el-table-column prop="name" label="姓名"></el-table-column>
             <el-table-column
@@ -241,6 +246,10 @@ export default {
   },
 
   methods: {
+    rowKey(row) {
+      return row.id;
+    },
+
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
     },
@@ -264,9 +273,6 @@ export default {
       this.$store
         .dispatch(TEACHER_NAMESPACE + "/" + DELETE_STUDENT, row.id)
         .then(() => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
           this.$message.success("删除成功");
         });
     },
@@ -337,6 +343,7 @@ export default {
       this.deleteVisible = false;
       this.fullscreenLoading = true;
       let length = this.multipleSelection.length;
+      console.log(length);
 
       for (let i = 0; i < length; i++) {
         await this.$store.dispatch(
@@ -344,8 +351,8 @@ export default {
           this.multipleSelection[i].id
         );
       }
+      this.$refs.multipleTable.clearSelection();
       this.$message.success("删除成功");
-      window.location.reload();
       this.fullscreenLoading = false;
     },
 
