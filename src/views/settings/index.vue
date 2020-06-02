@@ -26,16 +26,14 @@
 
             <div
               class="direction"
-              v-if="
-                this.role === 'student' && this.studentDirections.length !== 0
-              "
+              v-if="this.role === 'student' && studentDirections.length !== 0"
             >
               <div class="tag-group">
                 <span class="tag-group__title">
                   <i class="iconfont icon-iconfonticon-dianyu"></i>
                 </span>
                 <el-tag
-                  v-for="(item, index) in this.studentDirections"
+                  v-for="(item, index) in studentDirections"
                   :key="index"
                   type=""
                   effect="light"
@@ -56,7 +54,7 @@
 
       <el-col :span="16">
         <el-card>
-          <NavMenu :studentDirections="studentDirections"></NavMenu>
+          <NavMenu></NavMenu>
         </el-card>
       </el-col>
     </el-row>

@@ -94,8 +94,9 @@ const myActions = {
     let resp = await axios.delete(`teacher/courses/${data}`);
   },
 
+  // 获取所有老师导入的学生
   async [GET_STUDENTS]({ commit }, data) {
-    let resp = await axios.get("teacher/students");
+    let resp = await axios.get(`teacher/${data.tid}/students`);
     commit(UPDATE_STUDENTS, resp.data);
   },
 
@@ -105,21 +106,26 @@ const myActions = {
   },
 
   async [ADD_SELECTED_STUDENT]({ commit }, data) {
-    console.log("sid: ", data);
-    let resp = await axios.put(`teacher/students/${data}`);
-    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+    let resp = await axios.put(`teacher/students/${data.sid}`);
+    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS, {
+      tid: data.tid
+    });
   },
 
   async [DELETE_SELECTED_STUDENT]({ commit }, data) {
     console.log("sid: ", data);
-    let resp = await axios.delete(`teacher/selectedstudents/${data}`);
-    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
-    await store.dispatch(ADMIN_NAMESPACE + "/" + GET_TEACHERS);
+    let resp = await axios.delete(`teacher/selectedstudents/${data.sid}`);
+    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS, {
+      tid: data.tid
+    });
   },
 
+  // 删除导入的学生
   async [DELETE_STUDENT]({ commit }, data) {
-    let resp = await axios.delete(`teacher/students/${data}`);
-    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+    let resp = await axios.delete(`teacher/${data.tid}/students/${data.sid}`);
+    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS, {
+      tid: data.tid
+    });
   },
 
   // async [ADD_STUDENT]({ commit }, data) {
@@ -138,8 +144,10 @@ const myActions = {
   // },
 
   async [ADD_ELECTIVES]({ commit }, data) {
-    let resp = await axios.post("teacher/students", data);
-    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+    let resp = await axios.post("teacher/students", data.electives);
+    await store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS, {
+      tid: data.tid
+    });
   }
 };
 

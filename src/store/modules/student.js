@@ -54,8 +54,8 @@ const myActions = {
   async [UPDATE_STUDENT_DIRECTIONS]({ commit }, data) {
     console.log(data);
     let resp = await axios.patch("student/directions", data);
-    console.log(resp);
-    commit(UPDATE_STUDENT_DIRECTIONS, resp.data.directions);
+    console.log("update student directions: ", resp.data);
+    commit(UPDATE_STUDENT_DIRECTIONS, resp.data);
   },
 
   async [GET_DIRECTIONS]({ commit }) {

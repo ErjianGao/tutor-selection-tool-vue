@@ -94,6 +94,12 @@
     <el-row>
       <el-col :span="24">
         <el-card>
+          <!--          :data="
+              students.slice(
+                (currentPage - 1) * pageSize,
+                currentPage * pageSize
+              )
+            "-->
           <el-table
             ref="multipleTable"
             :row-class-name="tableRowClassName"
@@ -102,11 +108,13 @@
             :row-key="rowKey"
             :data="
               students.slice(
-                (currentPage - 1) * pagesize,
-                currentPage * pagesize
+                (currentPage - 1) * pageSize,
+                currentPage * pageSize
               )
             "
             :fit="true"
+            @sort-change="sort_change"
+            :default-sort="{ prop: 'identityNo', order: 'ascending' }"
           >
             <el-table-column type="index"></el-table-column>
             <el-table-column type="expand">
@@ -140,7 +148,11 @@
               :reserve-selection="true"
               width="55"
             ></el-table-column>
-            <el-table-column prop="identityNo" label="学号"></el-table-column>
+            <el-table-column
+              sortable="custom"
+              prop="identityNo"
+              label="学号"
+            ></el-table-column>
             <el-table-column prop="name" label="姓名"></el-table-column>
             <el-table-column
               prop="teacher.name"
@@ -188,8 +200,9 @@
               background
               layout="prev, pager, next, sizes, total, jumper"
               :page-sizes="[5, 10, 15, 20]"
-              :page-size="pagesize"
+              :page-size="pageSize"
               :total="students.length"
+              :current-page="currentPage"
               @current-change="handleCurrentChange"
               @size-change="handleSizeChange"
             ></el-pagination>
@@ -221,15 +234,17 @@ import { readSutdentsFile } from "@/util/excelHandler.js";
 
 export default {
   created() {
-    this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS);
+    this.$store
+      .dispatch(TEACHER_NAMESPACE + "/" + GET_STUDENTS, {
+        tid: this.id
+      })
+      .then(() => {
+        this.sort_change({ prop: "identityNo", order: "ascending" });
+      });
     this.$store.dispatch(TEACHER_NAMESPACE + "/" + GET_COURSES, {
       id: this.id
     });
     this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_DIRECTIONS);
-  },
-
-  current_change: function(currentPage) {
-    this.currentPage = currentPage;
   },
 
   data() {
@@ -239,23 +254,60 @@ export default {
       fileList: [],
       multipleSelection: [],
       fullscreenLoading: false,
-      total: 37,
-      pagesize: 10,
+      total: null,
+      pageSize: 10,
       currentPage: 1
     };
   },
 
   methods: {
+    // ------------排序------------
+    sortFunction(attr, rev) {
+      //第一个参数传入info里的prop表示排的是哪一列，第二个参数是升还是降排序
+      if (rev === undefined) {
+        rev = 1;
+      } else {
+        rev = rev ? 1 : -1;
+      }
+
+      return function(a, b) {
+        a = a[attr];
+        b = b[attr];
+        if (rev === 1) {
+          return a - b;
+        } else {
+          return b - a;
+        }
+      };
+    },
+
+    sort_change(column) {
+      //column是个形参，就是前面说的info，你叫什么都可以
+      console.log(column);
+      // this.currentPage = 1; // return to the first page after sorting
+      if (column.prop === "identityNo") {
+        this.students.sort(
+          this.sortFunction(column.prop, column.order === "ascending")
+        );
+        console.log(this.students);
+      }
+      // this.showedData = this.students.slice(0, this.pageSize); // 排序完显示到第一页
+      console.log("Finished");
+    },
+
     rowKey(row) {
       return row.id;
     },
 
+    // ------------分页------------
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
+      console.log("current page ", this.currentPage);
     },
 
     handleSizeChange(psize) {
-      this.pagesize = psize;
+      console.log("page size: ", psize);
+      this.pageSize = psize;
     },
 
     tableRowClassName({ row, rowIndex }) {
@@ -269,9 +321,14 @@ export default {
       window.open("./file/课程成绩单模板.xls");
     },
 
+    // 删除导入学生
     handleDelete(index, row) {
+      let _this = this;
       this.$store
-        .dispatch(TEACHER_NAMESPACE + "/" + DELETE_STUDENT, row.id)
+        .dispatch(TEACHER_NAMESPACE + "/" + DELETE_STUDENT, {
+          sid: row.id,
+          tid: _this.id
+        })
         .then(() => {
           this.$message.success("删除成功");
         });
@@ -279,7 +336,10 @@ export default {
 
     handleSelect(index, row) {
       this.$store
-        .dispatch(TEACHER_NAMESPACE + "/" + ADD_SELECTED_STUDENT, row.id)
+        .dispatch(TEACHER_NAMESPACE + "/" + ADD_SELECTED_STUDENT, {
+          sid: row.id,
+          tid: this.id
+        })
         .then(() => {
           this.$message.success("选择成功");
         })
@@ -290,7 +350,10 @@ export default {
 
     handleDeleteSelect(index, row) {
       this.$store
-        .dispatch(TEACHER_NAMESPACE + "/" + DELETE_SELECTED_STUDENT, row.id)
+        .dispatch(TEACHER_NAMESPACE + "/" + DELETE_SELECTED_STUDENT, {
+          sid: row.id,
+          tid: this.id
+        })
         .then(() => {
           this.$message.success("成功取消互选");
         })
@@ -323,7 +386,10 @@ export default {
         });
 
         this.$store
-          .dispatch(TEACHER_NAMESPACE + "/" + ADD_ELECTIVES, electives)
+          .dispatch(TEACHER_NAMESPACE + "/" + ADD_ELECTIVES, {
+            electives: electives,
+            tid: this.id
+          })
           .then(() => {
             this.$message.success("导入成功");
             this.fileList = [];
@@ -346,10 +412,10 @@ export default {
       console.log(length);
 
       for (let i = 0; i < length; i++) {
-        await this.$store.dispatch(
-          TEACHER_NAMESPACE + "/" + DELETE_STUDENT,
-          this.multipleSelection[i].id
-        );
+        await this.$store.dispatch(TEACHER_NAMESPACE + "/" + DELETE_STUDENT, {
+          sid: this.multipleSelection[i].id,
+          tid: this.id
+        });
       }
       this.$refs.multipleTable.clearSelection();
       this.$message.success("删除成功");
@@ -390,9 +456,21 @@ export default {
 
   computed: {
     ...mapState(USER_NAMESPACE, ["role", "name", "identityNo", "id"]),
-    ...mapState(TEACHER_NAMESPACE, ["students", "courses"]),
+    ...mapState(TEACHER_NAMESPACE, ["courses"]),
+    ...mapState(TEACHER_NAMESPACE, {
+      students: state => state.students
+    }),
     ...mapState(STUDENT_NAMESPACE, ["directions"])
   }
+  //
+  // watch: {
+  //   showedData: {
+  //     handler() {
+  //       console.log("进入");
+  //       this.sort_change({ prop: "identityNo", order: "ascending" });
+  //     }
+  //   }
+  // }
 };
 </script>
 

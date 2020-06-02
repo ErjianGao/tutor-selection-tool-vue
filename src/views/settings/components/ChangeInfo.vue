@@ -151,7 +151,6 @@ export default {
         this.$message.error("修改失败");
       }
       this.$message.success("修改成功");
-      window.location.reload();
     },
 
     submitTeacherInfo(infoForm) {

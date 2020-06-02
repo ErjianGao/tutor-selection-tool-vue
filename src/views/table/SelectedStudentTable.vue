@@ -8,7 +8,9 @@
             :data="this.selectedStudents"
             style="width: 100%"
             :fit="true"
+            :default-sort="{ prop: 'identityNo', order: 'ascending' }"
           >
+            <el-table-column type="index"></el-table-column>
             <el-table-column type="expand">
               <template slot-scope="props">
                 <el-form label-position="left" class="demo-table-expand">
@@ -34,8 +36,16 @@
                 </el-form>
               </template>
             </el-table-column>
-            <el-table-column prop="identityNo" label="学号"></el-table-column>
-            <el-table-column prop="name" label="姓名"></el-table-column>
+            <el-table-column
+              sortable
+              prop="identityNo"
+              label="学号"
+            ></el-table-column>
+            <el-table-column
+              sortable
+              prop="name"
+              label="姓名"
+            ></el-table-column>
             <el-table-column
               prop="teacher.name"
               label="已选导师"
