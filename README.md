@@ -5,4 +5,4 @@
 
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=ErjianGao.tutor-selection-tool-vue)
 
-This is the fontend of the tutor selection tool project. And [here](https://github.com/ErjianGao/tutor-selection-tool) is the GitHub repository of the backend microservices. 
+This is the front-end of the tutor selection tool project. And [here](https://github.com/ErjianGao/tutor-selection-tool) is the GitHub repository of the backend microservices. 
