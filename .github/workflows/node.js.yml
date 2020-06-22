@@ -42,6 +42,7 @@ jobs:
         script: |
           ${{ secrets.DOCKER_LOGIN }}
           cd /home/erjiangao/services/tutor-selection-tool/
+          docker-compose pull
           docker-compose up -d
           [ $(docker images -f dangling=true docker.pkg.github.com/erjiangao/tutor-selection-tool-vue/tutor-selection-tool-vue:latest -q) ] && \
            docker rmi $(docker images -f dangling=true docker.pkg.github.com/erjiangao/tutor-selection-tool-vue/tutor-selection-tool-vue:latest -q)
