@@ -2,7 +2,7 @@
   <el-container>
     <div class="page-wrapper">
       <h1>This is a normal 404 error page ~</h1>
-      <h1>这是一个平平无奇的404页 ~</h1>
+      <h1>这是一个朴实无华的404页 ~</h1>
     </div>
   </el-container>
 </template>
