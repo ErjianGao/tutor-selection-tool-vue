@@ -253,9 +253,13 @@ export default {
     },
 
     handleSelect(index, row) {
-      this.$store.dispatch(STUDENT_NAMESPACE + "/" + ADD_SELECTED_TEACHER, {
-        tid: row.id
-      });
+      this.$store
+        .dispatch(STUDENT_NAMESPACE + "/" + ADD_SELECTED_TEACHER, {
+          tid: row.id
+        })
+        .then(() => {
+          this.$message.success("互选成功！");
+        });
     },
 
     tableRowClassName({ row, rowIndex }) {
@@ -298,7 +302,11 @@ export default {
     ...mapState(USER_NAMESPACE, ["id", "role"]),
     ...mapState(ADMIN_NAMESPACE, ["teachers"]),
     ...mapState(STUDENT_NAMESPACE, ["selectedTeacher"]),
-    ...mapState(TEACHER_NAMESPACE, ["courses"])
+    ...mapState(TEACHER_NAMESPACE, ["courses"]),
+
+    formatDateTime() {
+      return dateTime => dateTime.toString().replace("T", " ");
+    }
   }
 };
 </script>

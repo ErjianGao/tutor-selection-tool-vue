@@ -127,7 +127,7 @@
                     <span>{{ props.row.name }}</span>
                   </el-form-item>
                   <el-form-item label="插入时间">
-                    <span>{{ props.row.insertTime }}</span>
+                    <span>{{ formatDateTime(props.row.insertTime) }}</span>
                   </el-form-item>
                   <el-form-item label="毕设方向">
                     <el-tag
@@ -138,6 +138,44 @@
                     >
                       {{ item }}
                     </el-tag>
+                  </el-form-item>
+                  <el-form-item label="学生成绩">
+                    <el-button
+                      @click="handleGradeDrawer(props.$index, props.row)"
+                    >
+                      点击异步查询学生成绩
+                    </el-button>
+                    <el-drawer
+                      title="标题"
+                      :withHeader="false"
+                      :visible.sync="gradeDrawerVisible"
+                      :direction="direction"
+                      size="45%"
+                    >
+                      <h3>
+                        <i class="iconfont icon-kecheng"></i>
+                        学生各科成绩
+                      </h3>
+                      <el-table
+                        :data="electives"
+                        style="width: 100%"
+                        :fit="true"
+                      >
+                        <el-table-column
+                          prop="course.name"
+                          label="课程"
+                        ></el-table-column>
+                        <el-table-column
+                          prop="grade"
+                          label="成绩"
+                        ></el-table-column>
+                      </el-table>
+
+                      <p class="weitedGrade">
+                        <b>加权平均成绩</b>
+                        ：{{ formatGrade(props.row.weightedGrade) }}
+                      </p>
+                    </el-drawer>
                   </el-form-item>
                 </el-form>
               </template>
@@ -224,6 +262,7 @@ import {
   DELETE_STUDENT,
   GET_COURSES,
   GET_DIRECTIONS,
+  GET_ELECTIVES,
   GET_STUDENT_DIRECTIONS,
   GET_STUDENTS,
   STUDENT_NAMESPACE,
@@ -231,6 +270,7 @@ import {
   USER_NAMESPACE
 } from "@/store/types";
 import { readSutdentsFile } from "@/util/excelHandler.js";
+import { formatDateTime } from "@/util/handleDateTime";
 
 export default {
   created() {
@@ -256,11 +296,24 @@ export default {
       fullscreenLoading: false,
       total: null,
       pageSize: 10,
-      currentPage: 1
+      currentPage: 1,
+
+      // drawer
+      direction: "rtl",
+      gradeDrawerVisible: false
     };
   },
 
   methods: {
+    // ------------drawer------------
+    handleGradeDrawer(index, row) {
+      this.gradeDrawerVisible = true;
+      this.$store.dispatch(STUDENT_NAMESPACE + "/" + GET_ELECTIVES, {
+        sid: row.id,
+        tid: this.id
+      });
+    },
+
     // ------------排序------------
     sortFunction(attr, rev) {
       //第一个参数传入info里的prop表示排的是哪一列，第二个参数是升还是降排序
@@ -460,7 +513,15 @@ export default {
     ...mapState(TEACHER_NAMESPACE, {
       students: state => state.students
     }),
-    ...mapState(STUDENT_NAMESPACE, ["directions"])
+    ...mapState(STUDENT_NAMESPACE, ["directions", "electives"]),
+
+    formatGrade() {
+      return grade => grade.toFixed(2);
+    },
+
+    formatDateTime() {
+      return dateTime => dateTime.toString().replace("T", " ");
+    }
   }
   //
   // watch: {
@@ -514,5 +575,29 @@ export default {
 
 .el-table >>> .success-row {
   background: #f0f9eb;
+}
+
+/*  drawer*/
+.el-drawer {
+  text-align: center;
+}
+
+.el-drawer .el-table {
+  padding: 0 50px;
+}
+.el-drawer h3 {
+  margin: 20px;
+  color: #606266;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.el-drawer i {
+  font-size: 1.2em;
+}
+
+/*  成绩*/
+p.weitedGrade {
+  margin: 10px 60px;
 }
 </style>

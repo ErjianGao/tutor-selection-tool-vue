@@ -27,6 +27,8 @@ export const ADD_SELECTED_TEACHER = "addSelectedTeacher";
 export const GET_SELECTED_TEACHER = "getSelectedTeacher";
 export const UPDATE_ALL_COURSES = "UpdateAllCourses";
 export const GET_ALL_COURSES = "getAllCourses";
+export const UPDATE_ELECTIVES = "updateElectives";
+export const GET_ELECTIVES = "getElectives";
 
 // teacher
 export const GET_TEACHER_INFO = "getTeacherInfo";

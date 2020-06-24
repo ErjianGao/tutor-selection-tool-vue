@@ -5,7 +5,9 @@ import {
   ADD_TEACHER,
   ADMIN_NAMESPACE,
   DELETE_TEAHCER,
+  GET_SELECTED_TEACHER,
   GET_TEACHERS,
+  STUDENT_NAMESPACE,
   UPDATE_TEACHERS
 } from "@/store/types";
 import axios from "axios";
@@ -37,6 +39,7 @@ const myActions = {
   async [DELETE_TEAHCER]({ commit }, data) {
     let resp = await axios.delete(`/admin/teachers/${data}`);
     await store.dispatch(ADMIN_NAMESPACE + "/" + GET_TEACHERS);
+    await store.dispatch(STUDENT_NAMESPACE + "/" + GET_SELECTED_TEACHER);
   }
 };
 

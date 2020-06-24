@@ -1,3 +1,3 @@
-export function handleDateTime(date) {
-  // return date.toString().replace("T", " ");
+export function formatDateTime(date) {
+  return date.toString().replace("T", " ");
 }

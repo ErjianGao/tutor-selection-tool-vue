@@ -39,6 +39,7 @@
           >
             <el-table-column prop="name" label="可选方向"></el-table-column>
             <el-table-column
+              :formatter="formatDateTime"
               prop="insertTime"
               label="更新时间"
             ></el-table-column>
@@ -84,6 +85,10 @@ export default {
         window.location.reload();
       }, 500);
       this.$message.success("插入成功");
+    },
+
+    formatDateTime(row, column, cellValue, index) {
+      return row[column.property].toString().replace("T", " ");
     }
   },
 

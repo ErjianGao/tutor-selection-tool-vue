@@ -21,7 +21,7 @@
                     <span>{{ props.row.name }}</span>
                   </el-form-item>
                   <el-form-item label="插入时间">
-                    <span>{{ props.row.insertTime }}</span>
+                    <span>{{ formatDateTime(props.row.insertTime) }}</span>
                   </el-form-item>
                   <el-form-item label="毕设方向">
                     <el-tag
@@ -89,7 +89,11 @@ export default {
 
   computed: {
     ...mapState(TEACHER_NAMESPACE, ["selectedStudents"]),
-    ...mapState(STUDENT_NAMESPACE, ["directions"])
+    ...mapState(STUDENT_NAMESPACE, ["directions"]),
+
+    formatDateTime() {
+      return dateTime => dateTime.toString().replace("T", " ");
+    }
   }
 };
 </script>

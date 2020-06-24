@@ -1,15 +1,22 @@
 import vue from "vue";
 import vuex from "vuex";
 import axios from "axios";
+import store from "@/store";
 import {
   ADD_DIRECTION,
   ADD_SELECTED_TEACHER,
+  ADMIN_NAMESPACE,
   GET_ALL_COURSES,
   GET_DIRECTIONS,
+  GET_ELECTIVES,
   GET_SELECTED_TEACHER,
   GET_STUDENT_DIRECTIONS,
+  GET_TEACHERS,
+  STUDENT_NAMESPACE,
+  TEACHER_NAMESPACE,
   UPDATE_ALL_COURSES,
   UPDATE_DIRECTIONS,
+  UPDATE_ELECTIVES,
   UPDATE_SELECTED_STUDENTS,
   UPDATE_SELECTED_TEACHER,
   UPDATE_STUDENT_DIRECTIONS
@@ -21,7 +28,8 @@ const myState = {
   directions: [],
   studentDirections: [],
   selectedTeacher: undefined,
-  allCourses: []
+  allCourses: [],
+  electives: []
 };
 
 const myMutations = {
@@ -41,6 +49,9 @@ const myMutations = {
   },
   [UPDATE_ALL_COURSES](myState, data) {
     myState.allCourses = data;
+  },
+  [UPDATE_ELECTIVES](myState, data) {
+    myState.electives = data;
   }
 };
 
@@ -77,12 +88,20 @@ const myActions = {
 
   async [ADD_SELECTED_TEACHER]({ commit }, data) {
     let resp = await axios.patch(`student/teachers/${data.tid}`);
-    commit(UPDATE_SELECTED_TEACHER, resp.data.teacher);
+    await store.dispatch(ADMIN_NAMESPACE + "/" + GET_TEACHERS);
+    await store.dispatch(STUDENT_NAMESPACE + "/" + GET_SELECTED_TEACHER);
   },
 
   async [GET_ALL_COURSES]({ commit }) {
     let resp = await axios.get("courses");
     commit(UPDATE_ALL_COURSES, resp.data);
+  },
+
+  async [GET_ELECTIVES]({ commit }, data) {
+    let resp = await axios.get(
+      `teacher/${data.tid}/students/${data.sid}/electives`
+    );
+    commit(UPDATE_ELECTIVES, resp.data);
   }
 };
 
