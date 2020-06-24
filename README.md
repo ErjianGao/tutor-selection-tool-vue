@@ -1,8 +1,11 @@
-# Tutor Selection Tool - Vue
+<p align="center">
+  <img width="320px" src="http://picbed.erjiangao.com/img/20200624105118.png"/>
+</p>
 
+<p align="center">
 <a href="https://github.com/vuejs/vue"><img src="https://img.shields.io/badge/vue-2.6.11-brightgreen.svg" alt="vue"></a>
 <a href="#License"><img src="https://img.shields.io/badge/license-MIT-green.svg"></a>
+<a><img src="https://visitor-badge.glitch.me/badge?page_id=ErjianGao.tutor-selection-tool-vue"></a>
+</p>
 
-![visitors](https://visitor-badge.glitch.me/badge?page_id=ErjianGao.tutor-selection-tool-vue)
-
-This is the front-end of the tutor selection tool project. And [here](https://github.com/ErjianGao/tutor-selection-tool) is the GitHub repository of the backend microservices. 
+This is the front-end of the tutor selection tool project. And [HERE](https://github.com/ErjianGao/tutor-selection-tool) is the GitHub repository of the backend microservices. 
