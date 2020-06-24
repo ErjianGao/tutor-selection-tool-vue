@@ -50,6 +50,8 @@ export const DELETE_STUDENT = "deleteStudent";
 // admin
 export const UPDATE_TEACHERS = "updateTeachers";
 export const GET_TEACHERS = "getTeachers";
+export const ADD_TEACHER = "addTeacher";
+export const DELETE_TEAHCER = "deleteTeacher";
 
 // namespace
 export const USER_NAMESPACE = "user";

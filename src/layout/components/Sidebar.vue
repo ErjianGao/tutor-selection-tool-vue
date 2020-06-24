@@ -28,11 +28,6 @@
       <span slot="title">课程列表</span>
     </el-menu-item>
 
-    <el-menu-item v-if="role === 'admin'" index="/students/allStudents">
-      <i class="el-icon-s-order"></i>
-      <span slot="title">学生列表</span>
-    </el-menu-item>
-
     <el-submenu v-if="role === 'teacher'" index="/students">
       <template slot="title">
         <i class="el-icon-school"></i>

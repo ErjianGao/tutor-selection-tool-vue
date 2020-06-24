@@ -54,7 +54,7 @@ export const asyncRouterMap = [
 
       {
         path: "students/allStudents",
-        meta: { roles: ["teacher", "admin"] },
+        meta: { roles: ["teacher"] },
 
         component: () => import("@/views/table/StudentTable")
       },
