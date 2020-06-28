@@ -193,6 +193,12 @@
             ></el-table-column>
             <el-table-column prop="name" label="姓名"></el-table-column>
             <el-table-column
+              :formatter="formatTableGrade"
+              sortable="custom"
+              prop="weightedGrade"
+              label="加权成绩"
+            ></el-table-column>
+            <el-table-column
               prop="teacher.name"
               label="已选导师"
             ></el-table-column>
@@ -339,6 +345,12 @@ export default {
       console.log(column);
       // this.currentPage = 1; // return to the first page after sorting
       if (column.prop === "identityNo") {
+        this.students.sort(
+          this.sortFunction(column.prop, column.order === "ascending")
+        );
+        console.log(this.students);
+      }
+      if (column.prop === "weightedGrade") {
         this.students.sort(
           this.sortFunction(column.prop, column.order === "ascending")
         );
@@ -504,6 +516,10 @@ export default {
         directionNames.push(studentDirection.name);
       });
       return directionNames;
+    },
+
+    formatTableGrade(row, column) {
+      return row[column.property].toFixed(2);
     }
   },
 

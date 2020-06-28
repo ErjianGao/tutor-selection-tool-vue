@@ -36,7 +36,7 @@ const myState = {
 };
 
 const myMutations = {
-  [UPDATE_STUDENTS](state, data) {
+  [UPDATE_STUDENTS](myState, data) {
     myState.students = data;
     console.log("students: ", myState.students);
   },
@@ -97,6 +97,7 @@ const myActions = {
   // 获取所有老师导入的学生
   async [GET_STUDENTS]({ commit }, data) {
     let resp = await axios.get(`teacher/${data.tid}/students`);
+    console.log(resp.data);
     commit(UPDATE_STUDENTS, resp.data);
   },
 
